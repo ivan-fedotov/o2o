@@ -17,3 +17,5 @@ jQuery ->
     regexp = new RegExp($(this).data('id'), 'g')
     $(this).parent().parent().before($(this).data('fields').replace(regexp, time))
     event.preventDefault()
+  $ ->
+    $("#logs").scrollTop($("#log_block").prop('scrollHeight'))

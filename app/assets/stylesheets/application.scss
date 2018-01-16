@@ -108,3 +108,18 @@ table {
     }
   }
 }
+div#logs {
+  padding: 10px;
+  background-color: #fafafa;
+  border: thin solid lightgray;
+  height: 300px;
+  overflow-y: scroll;
+}
+div#new_msg {
+  padding: 10px;
+}
+div.images {
+  div.img {
+    border: solid thin lightgrey;
+  }
+}

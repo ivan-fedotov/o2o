@@ -6,6 +6,7 @@ class TicketsController < ApplicationController
   # GET /tickets
   # GET /tickets.json
   def index
+    p system('whoami')
     @brigades = Brigade.all
     @authors = Account.where(is_service: false)
     @ticket_types = TicketType.all
@@ -174,7 +175,7 @@ class TicketsController < ApplicationController
   end
 
   def sort_column
-    Ticket.column_names.include?(params[:sort]) ? params[:sort] : "updated_at"
+    Ticket.column_names.include?(params[:sort]) ? params[:sort] : "deadline"
   end
 
   def sort_direction

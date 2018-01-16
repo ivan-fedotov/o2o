@@ -38,7 +38,6 @@ class Ticket < ApplicationRecord
   after_create do |t|
     t.number = t.id.to_s.rjust(7, '0')
     t.time_new = t.created_at.localtime
-    t.skip_callback
     pc = t.create_photo_collection(title: t.number)
     pc.save
   end
@@ -54,10 +53,6 @@ class Ticket < ApplicationRecord
         csv << ticket.attributes.values_at(*column_names)
       end
     end
-  end
-
-  def save_me
-    self.save
   end
 
   def time_f(time)

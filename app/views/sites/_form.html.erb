@@ -1,0 +1,213 @@
+<div class="site_form">
+  <%= form_with(model: site, local: true) do |form| %>
+  <% if site.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(site.errors.count, "error") %> prohibited this site from being saved:</h2>
+
+    <ul>
+      <% site.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="row gutters">
+    <div class="col col-2">
+      <div class="form-item field">
+        <label for="site_network_name">Номер станции</label>
+        <%= form.text_field :network_name, id: :site_network_name, disabled: (params[:action]!='new') %>
+      </div>
+    </div>
+    <div class="col col-2">
+      <div class="form-item field">
+        <label for="site_distance">Расстояние</label>
+        <%= form.text_field :distance, id: :site_distance, disabled: (params[:action]=='show') %>
+      </div>
+    </div>
+    <div class="col col-4">
+      <div class="form-item field">
+        <label for="site_network_name">Адрес</label>
+        <%= form.text_field :adress_info, id: :site_adress_info, disabled: (params[:action]=='show') %>
+      </div>
+    </div>
+    <div class="col col-4">
+      <div class="form-item field">
+        <label for="site_brigade_id">Бригада</label>
+        <%= form.collection_select :brigade_id, @brigades, :id, :title, {:include_black => '*'}, {disabled: (params[:action]=='show')} %>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabs" data-component="tabs">
+    <ul>
+      <li class="active"><a href="#info">Информация</a></li>
+      <li><a href="#schema_link">Схемы связи</a></li>
+      <li><a href="#schema_power">Схемы электропитания</a></li>
+      <li><a href="#photos">Фотографии</a></li>
+      <li><a href="#access">Письма на допуск</a></li>
+    </ul>
+  </nav>
+  <div>
+
+  </div>
+  <div id="info">
+    <div class="row gutters">
+      <div class="col col-6">
+        <div class="form-item field">
+          <label for="site_access_info">Информация по допуску</label>
+          <%= form.text_area :access_info, id: :site_access_info, :rows => 4, disabled: (params[:action]=='show') %>
+        </div>
+      </div>
+      <div class="col col-6">
+        <div class="form-item field">
+          <label for="site_keys_info">Информация по ключам</label>
+          <%= form.text_area :keys_info, id: :site_keys_info, :rows => 4, disabled: (params[:action]=='show') %>
+        </div>
+      </div>
+    </div>
+    <div class="row gutters">
+      <div class="col col-6">
+        <div class="form-item field">
+          <label for="site_power_info">Информация по энергооснабжению</label>
+          <%= form.text_area :power_info, id: :site_power_info, :rows => 4, disabled: (params[:action]=='show') %>
+        </div>
+      </div>
+      <div class="col col-6">
+        <div class="form-item field">
+          <label for="site_power_info">Прочее</label>
+          <%= form.text_area :etc, id: :site_etc, :rows => 4, disabled: (params[:action]=='show') %>
+        </div>
+      </div>
+    </div>
+    <% if params[:action] != 'show' %>
+    <div class="button-group">
+      <%= form.submit "Сохранить", :class => 'button hidden' %>
+      <% if form.object.id.nil? %>
+      <%= link_to 'Отмена', sites_path, :class => 'button' %>
+      <% else %>
+      <%= link_to 'Отмена', site_path(form.object), :class => 'button' %>
+      <% end %>
+    </div>
+    <% else %>
+    <div class="col">
+      <%= link_to 'Редактировать', edit_site_path(@site) %> |
+      <%= link_to 'К списку', sites_path %>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
+  <div id="schema_link">
+    <div class="row gutters">
+      <div class="col col-2">
+        <%= form_for @document, html: { multipart: true } do |f| %>
+        <%= f.hidden_field :site_id %>
+        <%= f.hidden_field :doctype, value: '0' %>
+        <%= f.file_field :file %>
+        <%= f.submit 'Загрузить', class: 'button' %>
+        <% end %>
+      </div>
+
+      <div class="col col-9 offset-1">
+
+        <% @documents_sl.each do |doc| %>
+        <div class="row">
+          <!-- Renders image -->
+          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp; (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div id="schema_power">
+    <div class="row gutters">
+      <div class="col col-2">
+        <%= form_for @document, html: { multipart: true } do |f| %>
+        <%= f.hidden_field :site_id %>
+        <%= f.hidden_field :doctype, value: '1' %>
+        <%= f.file_field :file %>
+        <%= f.submit 'Загрузить', class: 'button' %>
+        <% end %>
+      </div>
+
+      <div class="col col-9 offset-1">
+
+        <% @documents_sp.each do |doc| %>
+        <div class="row">
+          <!-- Renders image -->
+          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp; (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div id="photos">
+    <div class="row gutters">
+      <div class="col col-2">
+        <%= form_for @photo, html: { multipart: true } do |f| %>
+        <%= f.hidden_field :site_id %>
+        <%= f.hidden_field :message_id, value: '1' %>
+        <%= f.file_field :image %>
+        <%= f.submit 'Загрузить', class: 'button' %>
+        <% end %>
+      </div>
+
+      <div class="col col-9 offset-1">
+        <div class="row gutters">
+          <% @photos.no_pc.each do |photo| %>
+          <div class="col col-2">
+            <!-- Renders image -->
+            <%= link_to image_tag(photo.image.url(:thumb), class: 'media-object'), photo.image.url, target: '_blank' %>
+            <%= link_to 'Удалить', photo_path(photo), class: 'btn btn-danger', method: :delete, data: {confirm: 'Are you sure?'} %>
+          </div>
+          <% end %>
+        </div>
+        <hr>
+        <div class="row gutters vertical-gut">
+          <% @site.photo_collections.each do |pc| %>
+          <% if pc.photos.size > 0 %>
+          <div class="col col-12 vertical-gut">
+            <button data-component="toggleme" data-target="#togglebox-target-<%= pc.id %>" data-text="Заявка №<%=  pc.title %>">Заявка №<%=  pc.title %></button>
+          </div>
+          <div id="togglebox-target-<%= pc.id %>" class="hide col col-12">
+            <div class="row">
+              <%= link_to "Заявка", ticket_path(pc.ticket), class: "btn btn-primary" %>
+            </div>
+            <div class="row gutters">
+              <% pc.photos.each do |p| %>
+              <div class="col col-2 vertical-gut">
+                <%= link_to image_tag(p.image.url(:thumb), class: 'media-object'), p.image.url, target: '_blank' %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="access">
+    <div class="row gutters">
+      <div class="col col-2">
+        <%= form_for @document, html: { multipart: true } do |f| %>
+        <%= f.hidden_field :site_id %>
+        <%= f.hidden_field :doctype, value: '2' %>
+        <%= f.file_field :file %>
+        <%= f.submit 'Загрузить', class: 'button' %>
+        <% end %>
+      </div>
+
+      <div class="col col-9 offset-1">
+
+        <% @documents_ac.each do |doc| %>
+        <div class="row">
+          <!-- Renders image -->
+          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp; (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>

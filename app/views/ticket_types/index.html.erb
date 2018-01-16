@@ -1,0 +1,24 @@
+<div class="site_form">
+  <h3>Типы заявок</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Наименование</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @ticket_types.each do |ticket_type| %>
+        <tr>
+          <td><%= ticket_type.title %></td>
+          <td><%= link_to 'Edit', edit_ticket_type_path(ticket_type) %></td>
+          <td><%= link_to 'Destroy', ticket_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+  <%= link_to 'Новый', new_ticket_type_path %>
+</div>

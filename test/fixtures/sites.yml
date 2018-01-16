@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  network_name: MyString
+  adress_info: MyString
+  distance: MyString
+  access_info: MyString
+  keys_info: MyString
+  power_info: MyString
+  etc: MyString
+
+two:
+  network_name: MyString
+  adress_info: MyString
+  distance: MyString
+  access_info: MyString
+  keys_info: MyString
+  power_info: MyString
+  etc: MyString

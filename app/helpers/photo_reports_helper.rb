@@ -1,0 +1,2 @@
+module PhotoReportsHelper
+end

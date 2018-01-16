@@ -1,0 +1,18 @@
+<div class="row gutters count vertical-gut">
+  <div class="col col-3">
+    <%= f.collection_select :price_id, Price.all, :id, :desc %>
+  </div>
+  <div class="col col-2">
+    <%= f.text_field :price_on_init, :disabled => 'disabled' %>
+  </div>
+  <div class="col col-2">
+    <%= f.text_field :quantity %>
+  </div>
+  <div class="col col-3">
+    <%= text_field_tag :sum, f.object.price_on_init.to_f * f.object.quantity.to_f, :disabled => 'disabled' %>
+  </div>
+  <div class="col col-2">
+    <%= f.hidden_field :_destroy %>
+    <%= link_to "Удалить", '#', class: "remove_fields" %>
+  </div>
+</div>

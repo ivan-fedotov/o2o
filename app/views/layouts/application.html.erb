@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>O2O</title>
+
+  <%= stylesheet_link_tag    "application" %>
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+  <div id="navbar" data-component="sticky">
+    <nav>
+      <ul>
+        <li><%= link_to 'Заявки', root_path %></li>
+        <li><%= link_to 'Новая заявка', new_ticket_path %></li>
+        <li><%= link_to 'Объекты', sites_path %></li>
+        <li><%= link_to "Бригады", brigades_path %></li>
+        <li><%= link_to 'Настройки', settings_path %></li>
+        <li><%= link_to 'Отчеты', new_report_path %></li>
+        <li>
+          <a href="" data-component="dropdown" data-target="#dropdown-admin">
+            Администрирование
+            <span class="caret down"></span>
+          </a>
+        </li>
+        <li><%= link_to 'Выход', destroy_user_session_path, method: :delete %></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="dropdown hide" id="dropdown-admin">
+    <ul>
+      <li><%= link_to "Пользователи", "#" %></li>
+      <li><%= link_to "Статусы заявок", statuses_path %></li>
+      <li><%= link_to "Типы заявок", ticket_types_path %></li>
+      <li><%= link_to "Работы", prices_path %></li>
+    </ul>
+  </div>
+  <div class="main_container">
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <%= yield %>
+  </div>
+  <%= javascript_include_tag "application" %>
+</body>
+</html>

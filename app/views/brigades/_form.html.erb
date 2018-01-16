@@ -1,0 +1,40 @@
+<%= form_with(model: brigade, local: true) do |form| %>
+<% if brigade.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(brigade.errors.count, "error") %> prohibited this brigade from being saved:</h2>
+
+  <ul>
+    <% brigade.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="field">
+  <strong>Наименование</strong>
+  <%= form.text_field :title, id: :brigade_title %>
+</div>
+<br>
+<div class="field">
+  <strong>Информация о бригаде</strong>
+  <%= form.text_area :description, id: :brigade_description, rows: '8' %>
+</div>
+<br>
+<% if params[:action] != 'show' %>
+<div class="button-group">
+  <%= form.submit "Сохранить", :class => 'button hidden' %>
+  <% if form.object.id.nil? %>
+    <%= link_to 'Отмена', brigades_path, :class => 'button' %>
+  <% else %>
+    <%= link_to 'Отмена', brigade_path(form.object), :class => 'button' %>
+  <% end %>
+  <% if form.object.free? %>
+    <% if params[:action] != 'new' %>
+      <%= link_to 'Удалить', @brigade, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'button' %>
+    <% end %>
+  <% end %>
+
+</div>
+<% end %>
+<% end %>

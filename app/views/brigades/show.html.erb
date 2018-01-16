@@ -1,0 +1,19 @@
+<div class="site_form">
+  <h3><%= link_to "Бригады", brigades_path %> / <%= @brigade.title %></h3>
+  <%= form_for @brigade do |f| %>
+
+  <p>
+    <strong>Наименование</strong>
+    <%= f.text_field :title, disabled: 'disabled'%>
+  </p>
+
+  <p>
+    <strong>Информация о бригаде</strong>
+    <%= f.text_area :description, rows: '8', disabled: 'disabled'%>
+  </p>
+
+  <%= link_to 'Редактировать', edit_brigade_path(@brigade) %> |
+  <%= link_to 'К списку', brigades_path %>
+
+  <% end %>
+</div>

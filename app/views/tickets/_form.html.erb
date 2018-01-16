@@ -1,0 +1,53 @@
+<%= form_with(model: ticket, local: true) do |form| %>
+  <% if ticket.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+
+      <ul>
+      <% ticket.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row gutters vertical-gut">
+    <div class="col col-2">
+      <div class="field">
+        <strong>Тип заявки</strong>
+        <%= form.collection_select  :ticket_type_id, @ticket_types, :id, :title, :include_blank => true %>
+      </div>
+    </div>
+    <div class="col col-5"><!--7-->
+      <div class="field">
+        <strong>Объект</strong>
+        <%= form.collection_select  :site_id, @sites, :id, :description, :include_blank => true %>
+      </div>
+    </div>
+    <div class="col col-2"><!--7-->
+      <div class="field">
+        <strong>Дэдлайн</strong>
+        <%= form.text_field  :deadline, value: time_f(form.object.deadline), class: 'datetimepicker small' %>
+      </div>
+    </div>
+    <div class="col col-3">
+      <div class="field">
+        <strong>Ответственный</strong>
+        <%= form.collection_select  :author_id, @authors, :id, :name, :include_blank => "[нет]" %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <strong>Описание неисправности</strong>
+    <%= form.text_area :title, id: :ticket_title, rows: '4' %>
+  </div>
+  <br>
+  <div class="button-group">
+    <%= form.submit "Сохранить", class: 'button' %>
+    <% if form.object.id.nil? %>
+    <%= link_to 'Отмена', tickets_path, :class => 'button' %>
+    <% else %>
+    <%= link_to 'Отмена', ticket_path(form.object), :class => 'button' %>
+    <% end %>
+  </div>
+<% end %>

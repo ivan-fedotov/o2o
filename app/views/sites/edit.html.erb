@@ -1,0 +1,5 @@
+<div class="site_form">
+  <h3><%= link_to "Объекты", sites_path %> / <%= @site.network_name %> - <%= @site.adress_info %></h3>
+
+  <%= render 'form', site: @site %>
+</div>

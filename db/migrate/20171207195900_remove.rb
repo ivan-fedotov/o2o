@@ -1,0 +1,6 @@
+class Remove < ActiveRecord::Migration[5.1]
+  def change
+      remove_column :tickets, :ticket_type
+      add_column :tickets, :ticket_type_id, :integer
+  end
+end

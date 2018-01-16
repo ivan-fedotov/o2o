@@ -1,0 +1,18 @@
+<div class="site_form">
+  <h3>Отчет</h3>
+  <%= form_for :query, url: reports_create_path, method: :get, class: "form", format: 'xls' do |f| %>
+  <div class="row gutters">
+    <div class="col col-5"><strong>Начало периода</strong></div>
+    <div class="col col-7"><strong>Конец периода</strong></div>
+    <div class="col col-5">
+      <%= f.text_field :start_time,  class: 'datetimepicker small' %>
+    </div>
+    <div class="col col-5">
+      <%= f.text_field :end_time,  class: 'datetimepicker small' %>
+    </div>
+    <div class="col col-2">
+      <%= f.submit 'Отпрваить' %>
+    </div>
+  </div>
+  <% end %>
+</div>

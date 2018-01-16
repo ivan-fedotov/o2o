@@ -1,0 +1,58 @@
+<div class="site_form">
+  <h3>Объекты</h3>
+  <%= form_for @s, url: sites_path, method: :get, class: "form" do |f| %>
+  <div class="row">
+    <div class="col col-2">
+      <%= link_to 'Новый объект', new_site_path, class:"button small" %>
+    </div>
+    <div class="col col-10" id="togglebox-target">
+      <div class="row gutters push-right">
+        <div class="col col-4">
+          <div class="prepend">
+
+            <span>Бригада</span>
+            <%= f.collection_select( :brigade_filter, @brigades, :id, :title, {:include_blank => "Все"}, { class: 'small'}) %>
+          </div>
+        </div>
+        <div class="col col-8">
+          <div class="row" align="right">
+            <div class="append w100">
+              <%= f.text_field :search_filter, class: 'search small' %>
+              <%= submit_tag "Фильтр", class: 'button secondary outline small' %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <% end %>
+
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Объект</th>
+        <th>Адрес</th>
+        <th>Бригада</th>
+        <th>Расстояние</th>
+        <th>Заявок</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @sites.each do |site| %>
+      <tr>
+        <td class="network_name"><%= link_to "#{site.network_name}", site %></td>
+        <td><%= link_to "#{site.adress_info}", site %></td>
+        <td><%= site.brigade.title %></td>
+        <td><%= site.distance %></td>
+        <td><%= site.tickets.size %></td>
+        <td><%= link_to 'Уд.', site, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

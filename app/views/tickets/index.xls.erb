@@ -1,0 +1,38 @@
+
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Номер</Data></Cell>
+        <Cell><Data ss:Type="String">БС</Data></Cell>
+        <Cell><Data ss:Type="String">Тип заявки</Data></Cell>
+        <Cell><Data ss:Type="String">Статус</Data></Cell>
+        <Cell><Data ss:Type="String">Начало события</Data></Cell>
+        <Cell><Data ss:Type="String">Регистрация на сайте</Data></Cell>
+        <Cell><Data ss:Type="String">Завершено</Data></Cell>
+        <Cell><Data ss:Type="String">Описание</Data></Cell>
+        <Cell><Data ss:Type="String">Ответственный Теле2</Data></Cell>
+        <Cell><Data ss:Type="String">Бригада РТК</Data></Cell>
+      </Row>
+    <% @tickets.each do |ticket| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= ticket.number %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.site.network_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.ticket_type.title %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.status.title %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= time_f(ticket.time_new) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= time_f(ticket.time_at_site) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= time_f(ticket.time_done) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.title %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.author.name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.brigade.title %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

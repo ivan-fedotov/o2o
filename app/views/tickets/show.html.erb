@@ -1,0 +1,177 @@
+<div class="site_form">
+  <h3><%= link_to "Заявки", tickets_path %> / <%= @ticket.number %></h3>
+</div>
+<% if @ticket.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+
+  <ul>
+    <% @ticket.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<div class="row gutters">
+  <div class="col col-7">
+    <%= form_for @ticket do |f| %>
+    <fieldset>
+      <legend>Заявка</legend>
+      <div class="row gutters">
+        <div class="col col-7">
+          <%= link_to "[ Править ]", edit_ticket_path(@ticket), class: "small" %><br><br>
+          <div class="vertical-gut">
+            <strong>Тип заявки</strong>
+            <br>
+            <%= @ticket.ticket_type.title %>
+          </div>
+          <div class="vertical-gut">
+            <strong>Объект</strong>
+            <br>
+            <%= link_to @ticket.site.description , site_path(@ticket.site) %>
+          </div>
+          <div class="vertical-gut">
+            <strong>Статус</strong>
+            <%= f.collection_select :status_id, @statuses, :id, :title %>
+          </div>
+          <div class="vertical-gut">
+            <strong>Бригада</strong>
+            <br>
+            <%= f.collection_select :brigade_id, @brigades, :id, :title %>
+          </div>
+          <div class="vertical-gut">
+            <strong>Ответственный</strong>
+            <br>
+            <%= @ticket.author.name unless @ticket.author.nil? %>
+          </div>
+
+          <div class="vertical-gut">
+            <strong>Описание неисправности</strong>
+            <br>
+            <%= @ticket.title %>
+          </div>
+          <div class="form-item">
+            <%= f.submit "Сохранить", class: 'button'%>
+            <button data-component="modal" data-target="#my-modal">Калькуляция</button>
+          </div>
+        </div>
+        <div class="col col-5">
+          <div class="form-item">
+            <strong>Время начала</strong>
+            <br>
+            <%= f.text_field :created_at, value: time_f(f.object.time_new),  class: 'datetimepicker small', disabled:'disabled' %>
+          </div>
+          <div class="form-item">
+            <strong>Дэдлайн</strong>
+            <br>
+            <%= f.text_field :deadline, value: time_f(f.object.deadline),  class: 'datetimepicker small', disabled:'disabled' %>
+          </div>
+          <div class="form-item">
+            <strong>Время регистрации на сайте</strong>
+            <br>
+            <%= f.text_field :time_at_site, value: time_f(f.object.time_at_site), class: 'datetimepicker small' %>
+          </div>
+          <div class="form-item">
+            <strong>Время окончания работ</strong>
+            <br>
+            <%= f.text_field :time_done, value: time_f(f.object.time_done), class: 'datetimepicker small' %>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div id="my-modal" class="modal-box hide">
+      <div class="modal">
+        <span class="close"></span>
+        <div class="modal-header">Калькуляция</div>
+        <div class="modal-body">
+          <div class="row gutters count vertical-gut ">
+            <div class="col col-3">
+              Работы
+            </div>
+            <div class="col col-2">
+              Цена
+            </div>
+            <div class="col col-2">
+              Объем
+            </div>
+            <div class="col col-3">
+              Сумма
+            </div>
+            <div class="col col-2">
+            </div>
+          </div>
+          <%= f.fields_for :counts do |count_form| %>
+          <%= render 'count_fields', f: count_form %>
+          <% end %>
+          <div class="row gutters count">
+            <div class="col col-1 offset-6">
+              Итого:
+            </div>
+            <div class="col col-3">
+              <%= text_field_tag :result, @result, :disabled => 'disabled' %>
+            </div>
+            <div class="col col-2">
+              <%= link_to_add_fields "Добавить", f, :counts %>
+            </div>
+          </div>
+          <div class="row gutters count">
+            <div class="col col-2 offset-10">
+              <%= f.submit "Сохранить", class: 'button'%>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="col col-5">
+    <fieldset>
+      <legend>Хронология</legend>
+      <strong>Ваше сообщение</strong>
+      <%= form_for @msg, :url => url_for(:controller => 'tickets', :action => 'create_message'), html: { multipart: true }  do |f| %>
+      <%= f.hidden_field :ticket_id, :value => @ticket.id %>
+      <%= f.hidden_field :author_id, :value => 1 %>
+      <%= f.text_area :content, rows: '2' %>
+      <%= f.fields_for :photos, Photo.new do |photo| %>
+      <%#= photo.hidden_field :site_id, value: f.object.ticket.site.id %>
+      <%= file_field_tag "images[]", type: :file, multiple: true %>
+      <% end %>
+      <%= f.submit "Отправить" %>
+      <% end %>
+
+      <% @ticket.messages.order("created_at ASC").each do |m| %>
+      <%= render :partial => 'msg', :locals => {:m => m} %>
+      <% end %>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <fieldset>
+    <legend>Фотоотчет</legend>
+    <div class="row gutters">
+      <div class="col col-4">
+        <%= form_for @photo, html: { multipart: true } do |f| %>
+        <%= f.hidden_field :site_id, value: @ticket.site.id %>
+        <%= f.hidden_field :photo_collection_id %>
+        <%= hidden_field_tag :ticket_id, @ticket.id %>
+        <%= f.file_field :image %>
+        <%= f.submit 'Загрузить', class: 'button' %>
+        <% end %>
+      </div>
+      <div class="col col-8">
+        <div class="row gutters">
+          <% @photos.each do |photo| %>
+          <div class="col col-2">
+            <!-- Renders image -->
+            <%= link_to image_tag(photo.image.url(:thumb), class: 'media-object'), photo.image.url, target: '_blank' %>
+            <%= link_to 'Удалить', photo_path(photo), class: 'btn btn-danger', method: :delete, data: {confirm: 'Are you sure?'} %>
+          </div>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </fieldset>
+</div>

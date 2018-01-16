@@ -1,0 +1,12 @@
+
+<div class="row">
+  <b><%= time_f(m.created_at) %> <%= (m.author.nil?) ? "Система" : m.author.name %>:</b>
+  <p><%= m.content %></p>
+</div>
+<div class="row gutters">
+  <% m.photos.each do |photo| %>
+  <div class="col col-3">
+    <%= link_to image_tag(photo.image.url(:thumb), class: 'media-object'), photo.image.url, target: '_blank' %>
+  </div>
+  <% end %>
+</div>

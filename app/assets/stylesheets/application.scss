@@ -1,0 +1,95 @@
+/*
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+* vendor/assets/stylesheets directory can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file and they'll appear at the bottom of the
+* compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+* files in this directory. Styles in this file should be added after the last require_* statement.
+* It is generally better to create a new file per style scope.
+*
+*= require_tree .
+*= require_self
+*/
+body {
+  min-width: 1120px;
+      font-size: .8em;
+      .main_container {
+        margin: 10px 10px 0px;
+      }
+}
+a {
+  color: black;
+}
+.vertical-gut {
+  margin-bottom: 5px;
+}
+.site_form {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#navbar {
+  width: 100%;
+  background-color: #fafafa;
+  li {
+    list-style: none;
+    display: inline-block;
+    margin: 1em;
+  }
+}
+input:disabled, textarea:disabled {
+  color: rgba(0, 0, 0, 0.9);
+}
+input[type=submit] {
+  cursor: pointer;
+  flex: 0;
+  border-width: thin !important;
+  border-color: #d4d4d4 !important;
+  background-color: #1c86f2 !important;
+  color: #fff !important;
+}
+label {
+  margin-top: 9px;
+}
+table {
+  td, th {
+        font-size: 0.9em;
+        padding: .2rem;
+        &.network_name, &.type {
+          width: 80px;
+        }
+        &.status {
+          min-width: 120px;
+        }
+        &.time {
+          min-width: 130px;
+        }
+        &.brigade {
+          white-space: nowrap;
+        }
+        &:first-child {
+          padding-left: 0.2em;
+        }
+    div {
+      height: 2em;
+      overflow: hidden;
+    }
+  }
+}
+.dl7 {
+  background-color: #6BFC55 !important;
+}
+.dl6 {
+  background-color: #F2D973 !important;
+}
+.dl5 {
+  background-color: orange !important;
+}
+.dl4 {
+  background-color: #F56A47 !important;
+}
+.modal {
+  width: 900px !important;
+}

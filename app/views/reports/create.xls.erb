@@ -1,0 +1,58 @@
+
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">№пп</Data></Cell>
+        <Cell><Data ss:Type="String">Заявка</Data></Cell>
+        <Cell><Data ss:Type="String">Тип заявки</Data></Cell>
+        <Cell><Data ss:Type="String">БС</Data></Cell>
+        <Cell><Data ss:Type="String">Начало события</Data></Cell>
+        <Cell><Data ss:Type="String">Завершено</Data></Cell>
+        <Cell><Data ss:Type="String">Количество</Data></Cell>
+        <Cell><Data ss:Type="String">Расстояние</Data></Cell>
+        <Cell><Data ss:Type="String">Ставка за км.</Data></Cell>
+        <Cell><Data ss:Type="String">Плата за пробег</Data></Cell>
+        <Cell><Data ss:Type="String">Стоимость за еденицу</Data></Cell>
+        <Cell><Data ss:Type="String">Код работы</Data></Cell>
+        <Cell><Data ss:Type="String">Плата за генератор</Data></Cell>
+        <Cell><Data ss:Type="String">Плата за дор.затраты</Data></Cell>
+        <Cell><Data ss:Type="String">Всего за задание</Data></Cell>
+        <Cell><Data ss:Type="String">Адрес</Data></Cell>
+        <Cell><Data ss:Type="String">Наименование работы</Data></Cell>
+        <Cell><Data ss:Type="String">Комментарии</Data></Cell>
+        <Cell><Data ss:Type="String">Описание</Data></Cell>
+        <Cell><Data ss:Type="String">Результат</Data></Cell>
+      </Row>
+    <% @tickets.each_with_index do |ticket, i| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= i %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.number %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.ticket_type.title %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.site.network_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= time_f(ticket.time_new) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= time_f(ticket.time_done) %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.site.distance %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.site.adress_info %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><% ticket.messages.each do |msg| %><%= "#{time_f(msg.created_at)} : #{msg.content} " %><% end %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

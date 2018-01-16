@@ -1,0 +1,101 @@
+<div class="site_form">
+  <h3>Заявки</h3>
+  <%= form_for @t, url: root_path, method: :get, class: "form" do |f| %>
+  <div class="row">
+    <div class="col col-2">
+      <%= link_to 'Новая', new_ticket_path, class:"button big" %>
+    </div>
+    <div class="col col-10" id="togglebox-target">
+      <div class="row gutters vertical-gut">
+        <div class="col col-4">
+          <div class="prepend" >
+            <span>Отв.</span>
+            <%= f.collection_select( :author_filter, @authors, :id, :name, {:include_blank => "Все"}, { class: 'small'}) %>
+          </div>
+        </div>
+        <div class="col col-5">
+          <div class="prepend">
+
+            <span>Сайт</span>
+            <%= f.collection_select( :site_filter, @sites, :id, :description, {:include_blank => "Все"}, { class: 'small'}) %>
+          </div>
+        </div>
+        <div class="col col-3">
+          <div class="prepend">
+
+            <span>Статус</span>
+            <%= f.collection_select( :status_filter, @statuses.all, :id, :title, {:include_blank => "Все"}, { class: 'small'}) %>
+          </div>
+        </div>
+      </div>
+      <div class="row gutters push-right">
+        <div class="col col-4">
+          <div class="prepend">
+            <span>Бригада</span>
+            <%= f.collection_select( :brigade_filter, @brigades, :id, :title, {:include_blank => "Все"}, { class: 'small'}) %>
+          </div>
+        </div>
+        <div class="col col-4">
+          <div class="prepend">
+            <span>Тип</span>
+            <%= f.collection_select( :ticket_type_filter, @ticket_types, :id, :title, {:include_blank => "Все"}, { class: 'small'}) %>
+          </div>
+        </div>
+        <div class="col col-4">
+          <div class="row" align="right">
+            <div class="append w100">
+              <%= f.text_field :search_filter, class: 'search small' %>
+              <%= submit_tag "Фильтр", class: 'button secondary outline small' %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<div>
+  <table class="tickets stacked">
+    <thead>
+      <tr>
+        <th><%= sortable 'number', 'Номер'%></th>
+        <th><%= sortable 'site_id', 'БС'%></th>
+        <th><%= sortable 'ticket_type_id', 'Тип'%></th>
+        <th><%= sortable 'status_id', 'Статус'%></th>
+        <th><%= sortable 'time_new', 'Начало'%></th>
+        <th><%= sortable 'deadline', 'Крайний срок'%></th>
+        <th><%= sortable 'time_at_site', 'Регистрация'%></th>
+        <th><%= sortable 'time_done', 'Завершено'%></th>
+        <th><%= sortable 'description', 'Описание'%></th>
+        <th><%= sortable 'author_id', 'Ответственный Т2'%></th>
+        <th><%= sortable 'brigade_id', 'Бригада О2О'%></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @tickets.each do |ticket| %>
+      <tr class="<%= get_color_by_deadline( ticket.deadline, ticket.ticket_type.id == 2 ) %>">
+        <td class="network_name"><%= link_to ticket.number, ticket_path(ticket) %></td>
+        <td class="network_name"><%= link_to ticket.site.network_name, ticket_path(ticket) %></td>
+        <td class="type"><%= link_to (ticket.ticket_type.nil?)? "-" : ticket.ticket_type.title , ticket_path(ticket) %></td>
+        <td class="status"><%= link_to ticket.status.title, ticket_path(ticket) %></td>
+        <td class="time"><%= time_f(ticket.time_new) %></td>
+        <td class="time"><%= time_f(ticket.deadline) %></td>
+        <td class="time"><%= time_f(ticket.time_at_site) %></td>
+        <td class="time"><%= time_f(ticket.time_done) %></td>
+        <td><div><%= link_to ticket.title, ticket_path(ticket) %></div></td>
+        <td><div>
+          <% unless ticket.author.nil? %>
+          <%= link_to ticket.author.name, ticket_path(ticket) %></div></td>
+          <% end %>
+        <td class="brigade"><div><%= link_to ticket.brigade.title, ticket_path(ticket) %></td></div></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%= will_paginate @tickets %>
+  <br>
+  <%= link_to "Экспорт в XLS", safe_params.merge(:format => :xls) %>
+</div>

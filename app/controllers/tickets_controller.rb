@@ -166,7 +166,7 @@ class TicketsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ticket_params
-    params.require(:ticket).permit(:number,:sort, :direction, :deadline,  :site_id, :author_id, :ticket_type_id, :brigade_id, :title, :time_new, :time_at_site, :time_done, :status_id, :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, :content, counts_attributes: [:id, :title, :ticket_id, :price_id, :price_on_init, :quantity, :_destroy])
+    params.require(:ticket).permit(:number,:sort, :direction, :deadline,  :site_id, :author_id, :ticket_type_id, :brigade_id, :title, :time_new, :time_at_site, :time_done, :status_id, :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, :content, :chrono, counts_attributes: [:id, :title, :ticket_id, :price_id, :price_on_init, :quantity, :_destroy])
   end
 
   def message_params

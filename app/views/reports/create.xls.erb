@@ -48,8 +48,8 @@
         <Cell><Data ss:Type="String"><%=  %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ticket.site.adress_info %></Data></Cell>
         <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><% ticket.messages.each do |msg| %><%= "#{time_f(msg.created_at)} : #{msg.content} " %><% end %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.chrono %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.title  %></Data></Cell>
         <Cell><Data ss:Type="String"><%=  %></Data></Cell>
       </Row>
     <% end %>

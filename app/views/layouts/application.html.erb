@@ -18,7 +18,6 @@
         <li><%= link_to 'Новая заявка', new_ticket_path %></li>
         <li><%= link_to 'Объекты', sites_path %></li>
         <li><%= link_to "Бригады", brigades_path %></li>
-        <li><%= link_to 'Настройки', settings_path %></li>
         <li><%= link_to 'Отчеты', new_report_path %></li>
         <li>
           <a href="" data-component="dropdown" data-target="#dropdown-admin">
@@ -26,7 +25,7 @@
             <span class="caret down"></span>
           </a>
         </li>
-        <li><%= link_to 'Выход(s)', destroy_user_session_path, method: :delete %></li>
+        <li><%#= link_to 'Выход(s)', destroy_user_session_path, method: :delete %></li>
         <li><%= link_to "Выход (#{current_user.name})", logout_path %></li>
       </ul>
     </nav>

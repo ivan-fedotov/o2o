@@ -67,6 +67,8 @@ class Ticket < ApplicationRecord
         str += "[ Время окончания работ: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
       when "deadline"
         str += "[ Краний срок: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+      when "chrono"
+        str ="Коррекция хронологии"
       end
 
       msg = "" + str + " " if str.size > 0

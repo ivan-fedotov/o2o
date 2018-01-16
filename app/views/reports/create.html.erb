@@ -1,2 +1,2 @@
-Выгружено <%= @tickets.size %> заявки.<br>
+Выгружено заявок: <%= @tickets.size %>.<br>
 <%= link_to "XLS", url_for(:format => :xls, query: {start_time: @query[:start_time], end_time: @query[:end_time]}) %>

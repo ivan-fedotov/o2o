@@ -67,7 +67,8 @@
           </div>
           <div class="form-item">
             <%= f.submit "Сохранить", class: 'button'%>
-            <button data-component="modal" data-target="#my-modal">Калькуляция</button>
+            <button data-component="modal" data-target="#calc-modal">Калькуляция</button>
+            <button data-component="modal" data-target="#chrono-modal">Хронология</button>
           </div>
         </div>
         <div class="col col-3">
@@ -89,7 +90,7 @@
         </div>
       </div>
     </fieldset>
-    <div id="my-modal" class="modal-box hide">
+    <div id="calc-modal" class="modal-box hide">
       <div class="modal">
         <span class="close"></span>
         <div class="modal-header">Калькуляция</div>
@@ -129,12 +130,27 @@
               <%= f.submit "Сохранить", class: 'button'%>
             </div>
           </div>
-          <% end %>
+
         </div>
       </div>
     </div>
-
-
+    <div id="chrono-modal" class="modal-box hide">
+      <div class="modal">
+        <span class="close"></span>
+        <div class="modal-header">Хронология</div>
+        <div class="modal-body">
+          <div class="row gutters">
+            <div class="col col-12 vertical-gut">
+              <%= f.text_area :chrono, rows: '15'%>
+            </div>
+            <div class="col col-2 offset-10">
+              <%= f.submit "Сохранить", class: 'button'%>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
   </div>
   <div class="col col-5">
     <fieldset>

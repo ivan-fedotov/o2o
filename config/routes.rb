@@ -1,13 +1,30 @@
 Rails.application.routes.draw do
+
+  get 'sessions/new'
+
+  get 'sessions/create'
+
+  get 'sessions/destroy'
+
   get 'reports/create'
   resources :reports,  only: [:new]
 
   get 'photo_reports/create'
 
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  get 'logout', to: 'sessions#destroy'
+
   devise_for :users, controllers: { sessions: 'users/sessions' }
   resources :jobs
   resources :prices
-  resources :accounts
+  resources :accounts do
+    resource :password, only: [:new, :update] do
+      member do
+        get :switch
+      end
+    end
+  end
   resources :brigades
   resources :ticket_types
   resources :statuses

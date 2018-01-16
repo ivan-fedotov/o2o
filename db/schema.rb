@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180115172316) do
+ActiveRecord::Schema.define(version: 20180116191710) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
     t.string "name_long"
     t.boolean "is_service"
-    t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
+    t.boolean "is_root"
   end
 
   create_table "brigades", force: :cascade do |t|
@@ -71,6 +71,15 @@ ActiveRecord::Schema.define(version: 20180115172316) do
     t.integer "ticket_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "passwords", force: :cascade do |t|
+    t.string "secret"
+    t.boolean "active"
+    t.datetime "last_changed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "account_id"
   end
 
   create_table "photo_collections", force: :cascade do |t|

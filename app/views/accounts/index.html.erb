@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Email</th>
       <th>Name</th>
       <th>Name long</th>
       <th>Is service</th>
@@ -15,15 +16,29 @@
 
   <tbody>
     <% @accounts.each do |account| %>
-      <tr>
-        <td><%= account.name %></td>
-        <td><%= account.name_long %></td>
-        <td><%= account.is_service %></td>
-        <td><%= account.password %></td>
-        <td><%= link_to 'Show', account %></td>
-        <td><%= link_to 'Edit', edit_account_path(account) %></td>
-        <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <tr>
+      <td><%= account.email %></td>
+      <td><%= account.name %></td>
+      <td><%= account.name_long %></td>
+      <td><%= account.is_service %></td>
+      <td>
+        <% if account.password.secret.nil? %>
+        <%= link_to "Установить пароль", new_account_password_path(account), class: "btn btn-primary" %>
+        <% else %>
+        <%= link_to "Изменить пароль", new_account_password_path(account), class: "btn btn-primary" %>
+        <% end %>
+      </td>
+      <td>
+        <% unless account.password.active %>
+        <%= link_to "Активировать", switch_account_password_path(account), class: "btn btn-primary" %>
+        <% else %>
+        <%= link_to "Деактивировать", switch_account_password_path(account), class: "btn btn-primary" %>
+        <% end %>
+      </td>
+      <td><%= link_to 'Show', account %></td>
+      <td><%= link_to 'Edit', edit_account_path(account) %></td>
+      <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
     <% end %>
   </tbody>
 </table>

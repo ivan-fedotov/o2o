@@ -26,13 +26,16 @@
             <span class="caret down"></span>
           </a>
         </li>
-        <li><%= link_to 'Выход', destroy_user_session_path, method: :delete %></li>
+        <li><%= link_to 'Выход(s)', destroy_user_session_path, method: :delete %></li>
+        <li><%= link_to "Выход (#{current_user.name})", logout_path %></li>
       </ul>
     </nav>
   </div>
   <div class="dropdown hide" id="dropdown-admin">
     <ul>
-      <li><%= link_to "Пользователи", "#" %></li>
+      <% if current_user.is_root %>
+      <li><%= link_to "Пользователи", accounts_path %></li>
+      <% end %>
       <li><%= link_to "Статусы заявок", statuses_path %></li>
       <li><%= link_to "Типы заявок", ticket_types_path %></li>
       <li><%= link_to "Работы", prices_path %></li>

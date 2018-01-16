@@ -1,0 +1,5 @@
+<p>Задать пароль для <%= @password.account.name %></p>
+<%= form_for @password, url:  :account_password do |f| %>
+  <%= f.password_field :secret %><br>
+  <%= f.submit "Сохранить" %>
+<% end %>

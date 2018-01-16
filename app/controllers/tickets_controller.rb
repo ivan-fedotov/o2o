@@ -26,7 +26,7 @@ class TicketsController < ApplicationController
     @tickets = @tickets.order("tickets." + sort_column + " " + sort_direction)
 
     respond_to do |format|
-      format.html { @tickets = @tickets.paginate(:page => params[:page], :per_page => 20) }
+      format.html { @tickets = @tickets.paginate(:page => params[:page], :per_page => 15) }
       format.xls #{ send_data @tickets.to_csv(col_sep: "\t") }
     end
   end
@@ -89,7 +89,7 @@ class TicketsController < ApplicationController
         unless @ticket.content.nil?
           msg = msg + " Доп. информация: =#{ @ticket.content }="
         end
-        @message = Message.new(content: msg, author_id: 1, ticket_id: @ticket.id)
+        @message = Message.new(content: msg, author_id: current_user.id, ticket_id: @ticket.id)
         @message.save
         @ticket.save
         format.html { redirect_to root_path, notice: "Заявка #{ @ticket.number } создана." }
@@ -140,7 +140,7 @@ class TicketsController < ApplicationController
     @sites = Site.all
     @authors = Account.where(is_service: false)
     @brigades = Brigade.all
-    @message.author_id = 1 if @message.author.nil?
+    @message.author_id = current_user.id
     respond_to do |format|
       if @message.save
         if params[:images]
@@ -178,6 +178,6 @@ class TicketsController < ApplicationController
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

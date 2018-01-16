@@ -12,8 +12,6 @@ class TicketsController < ApplicationController
     @sites = Site.all
     @statuses = Status.all
     @t = params[:ticket].nil? ? Ticket.new : Ticket.new(ticket_params)
-
-
     @tickets = Ticket.all
     if params[:ticket].present? and params[:ticket][:status_filter].present?
       @tickets = @tickets.status(params[:ticket][:status_filter])
@@ -87,7 +85,11 @@ class TicketsController < ApplicationController
             @ticket.deadline = Time.now + 4.hours
           end
         end
-        @message = Message.new(content: "Заявка создана.", author_id: 1, ticket_id: @ticket.id)
+        msg = "Заявка создана."
+        unless @ticket.content.nil?
+          msg = msg + " Доп. информация: =#{ @ticket.content }="
+        end
+        @message = Message.new(content: msg, author_id: 1, ticket_id: @ticket.id)
         @message.save
         @ticket.save
         format.html { redirect_to root_path, notice: "Заявка #{ @ticket.number } создана." }
@@ -164,7 +166,7 @@ class TicketsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ticket_params
-    params.require(:ticket).permit(:number,:sort, :direction, :deadline,  :site_id, :author_id, :ticket_type_id, :title, :time_new, :time_at_site, :time_done, :status_id, :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, counts_attributes: [:id, :title, :ticket_id, :price_id, :price_on_init, :quantity, :_destroy])
+    params.require(:ticket).permit(:number,:sort, :direction, :deadline,  :site_id, :author_id, :ticket_type_id, :brigade_id, :title, :time_new, :time_at_site, :time_done, :status_id, :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, :content, counts_attributes: [:id, :title, :ticket_id, :price_id, :price_on_init, :quantity, :_destroy])
   end
 
   def message_params

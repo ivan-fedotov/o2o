@@ -23,7 +23,12 @@
 
   <div class="field">
     <label for="ticket_site_id">Описание</label>
-    <%= form.text_area :title, id: :ticket_title, :rows => 4 %>
+    <%= form.text_field :title, id: :ticket_title, :rows => 4 %>
+  </div>
+
+  <div class="field">
+    <label for="ticket_site_id">Описание</label>
+    <%= form.text_area :content, :rows => 4 %>
   </div>
 
   <div class="button-group">

@@ -55,7 +55,7 @@
   </div>
   <% end %>
 </div>
-
+<% if @tickets.size > 0  %>
 <div>
   <table class="tickets stacked">
     <thead>
@@ -99,3 +99,6 @@
   <br>
   <%= link_to "Экспорт в XLS", safe_params.merge(:format => :xls) %>
 </div>
+<% else %>
+  <p>Заяки отсутствуют.</p>
+<% end %>

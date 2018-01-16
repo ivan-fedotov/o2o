@@ -19,7 +19,7 @@
       <legend>Заявка</legend>
       <div class="row gutters">
         <div class="col col-7">
-          <%= link_to "[ Править ]", edit_ticket_path(@ticket), class: "small" %><br><br>
+          <%#= link_to "[ Править ]", edit_ticket_path(@ticket), class: "small" %><br><br>
           <div class="vertical-gut">
             <strong>Тип заявки</strong>
             <br>
@@ -146,32 +146,35 @@
       <% end %>
     </fieldset>
   </div>
-</div>
-<div class="row">
-  <fieldset>
-    <legend>Фотоотчет</legend>
-    <div class="row gutters">
-      <div class="col col-4">
-        <%= form_for @photo, html: { multipart: true } do |f| %>
-        <%= f.hidden_field :site_id, value: @ticket.site.id %>
-        <%= f.hidden_field :photo_collection_id %>
-        <%= hidden_field_tag :ticket_id, @ticket.id %>
-        <%= f.file_field :image %>
-        <%= f.submit 'Загрузить', class: 'button' %>
-        <% end %>
-      </div>
-      <div class="col col-8">
-        <div class="row gutters">
-          <% @photos.each do |photo| %>
-          <div class="col col-2">
-            <!-- Renders image -->
-            <%= link_to image_tag(photo.image.url(:thumb), class: 'media-object'), photo.image.url, target: '_blank' %>
-            <%= link_to 'Удалить', photo_path(photo), class: 'btn btn-danger', method: :delete, data: {confirm: 'Are you sure?'} %>
-          </div>
+  <div class="col col-12">
+    <fieldset>
+      <legend>Фотоотчет</legend>
+      <div class="row gutters">
+        <div class="col col-4">
+          <%= form_for @photo, html: { multipart: true } do |f| %>
+          <%= f.hidden_field :site_id, value: @ticket.site.id %>
+          <%= f.hidden_field :photo_collection_id %>
+          <%= hidden_field_tag :ticket_id, @ticket.id %>
+          <%= f.file_field :image %>
+          <%= f.submit 'Загрузить', class: 'button' %>
           <% end %>
         </div>
+        <div class="col col-8">
+          <div class="row gutters">
+            <% if @photos.size == 0 %>
+              <p>Нет фотографий</p>
+            <% end %>
+            <% @photos.each do |photo| %>
+            <div class="col col-2">
+              <!-- Renders image -->
+              <%= link_to image_tag(photo.image.url(:thumb), class: 'media-object'), photo.image.url, target: '_blank' %>
+              <%= link_to 'Удалить', photo_path(photo), class: 'btn btn-danger', method: :delete, data: {confirm: 'Are you sure?'} %>
+            </div>
+            <% end %>
+          </div>
 
+        </div>
       </div>
-    </div>
-  </fieldset>
+    </fieldset>
+  </div>
 </div>

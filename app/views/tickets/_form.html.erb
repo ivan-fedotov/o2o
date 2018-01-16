@@ -38,8 +38,12 @@
     </div>
   </div>
   <div class="row">
-    <strong>Описание неисправности</strong>
-    <%= form.text_area :title, id: :ticket_title, rows: '4' %>
+    <strong>Описание</strong>
+    <%= form.text_field :title, id: :ticket_title, :rows => 4 %>
+  </div>
+  <div class="row">
+    <strong>Дополнительная информация</strong>
+    <%= form.text_area :content, rows: '5' %>
   </div>
   <br>
   <div class="button-group">

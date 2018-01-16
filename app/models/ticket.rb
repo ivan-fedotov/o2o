@@ -22,9 +22,10 @@ class Ticket < ApplicationRecord
   belongs_to :ticket_type
   belongs_to :author, :class_name => 'Account', :foreign_key => 'author_id', optional: true
   has_many :counts
-  accepts_nested_attributes_for :counts, allow_destroy: true
 
-  attr_accessor :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter
+  attr_accessor :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, :content
+
+  accepts_nested_attributes_for :counts, allow_destroy: true
 
   validates :ticket_type_id, presence: true
 
@@ -42,12 +43,43 @@ class Ticket < ApplicationRecord
     pc.save
   end
 
+  before_save do |t|
+    str = ""
+    t.changes.each do |c|
+      case c.first
+      when "status_id"
+        str += "[ Статус: '#{Status.find(c.last.first).title}' => '#{Status.find(c.last.last).title}' ] "
+      when "brigade_id"
+        str += "[ Бригада: '#{Brigade.find(c.last.first).title}' => '#{Brigade.find(c.last.last).title}' ] "
+      when "time_new"
+        str += "[ Время начала: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+      when "time_at_site"
+        str += "[ Время регистрации на сайте: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+      when "time_done"
+        str += "[ Время окончания работ: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+      when "deadline"
+        str += "[ Краний срок: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+      end
+    end
+    msg = "Изменения: " + str + "" if str.size > 0
+    @message = Message.new(content: msg, author_id: 1, ticket_id: t.id)
+    @message.save
+  end
+
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       csv << column_names
       all.each do |ticket|
         csv << ticket.attributes.values_at(*column_names)
       end
+    end
+  end
+
+  def time_f(time)
+    if time.nil?
+      ""
+    else
+      time.strftime("%d.%m.%Y %H:%M")
     end
   end
 

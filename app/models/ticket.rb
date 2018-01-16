@@ -48,7 +48,8 @@ class Ticket < ApplicationRecord
     t.changes.each do |c|
       case c.first
       when "status_id"
-        str += "[ Статус: '#{Status.find(c.last.first).title}' => '#{Status.find(c.last.last).title}' ] "
+        st = status_id.nil? ? Status.find(c.last.first).title : nil
+        str += "[ Статус: '#{st}' => '#{Status.find(c.last.last).title}' ] "
       when "brigade_id"
         str += "[ Бригада: '#{Brigade.find(c.last.first).title}' => '#{Brigade.find(c.last.last).title}' ] "
       when "time_new"

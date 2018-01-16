@@ -38,34 +38,13 @@ class Ticket < ApplicationRecord
   after_create do |t|
     t.number = t.id.to_s.rjust(7, '0')
     t.time_new = t.created_at.localtime
-    t.save
+    t.skip_callback
     pc = t.create_photo_collection(title: t.number)
     pc.save
   end
 
-  before_save do |t|
-    if t.persisted?
-      str = ""
-      t.changes.each do |c|
-        case c.first
-        when "status_id"
-          str += "[ Статус: '#{Status.find(c.last.first).title}' => '#{Status.find(c.last.last).title}' ] "
-        when "brigade_id"
-          str += "[ Бригада: '#{Brigade.find(c.last.first).title}' => '#{Brigade.find(c.last.last).title}' ] "
-        when "time_new"
-          str += "[ Время начала: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
-        when "time_at_site"
-          str += "[ Время регистрации на сайте: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
-        when "time_done"
-          str += "[ Время окончания работ: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
-        when "deadline"
-          str += "[ Краний срок: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
-        end
-      end
-      msg = "Изменения: " + str + "" if str.size > 0
-      @message = Message.new(content: msg, author_id: 1, ticket_id: t.id)
-      @message.save
-    end
+  after_update do |t|
+
   end
 
   def self.to_csv(options = {})
@@ -75,6 +54,10 @@ class Ticket < ApplicationRecord
         csv << ticket.attributes.values_at(*column_names)
       end
     end
+  end
+
+  def save_me
+    self.save
   end
 
   def time_f(time)

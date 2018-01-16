@@ -44,27 +44,28 @@ class Ticket < ApplicationRecord
   end
 
   before_save do |t|
-    str = ""
-    t.changes.each do |c|
-      case c.first
-      when "status_id"
-        st = status_id.nil? ? Status.find(c.last.first).title : nil
-        str += "[ Статус: '#{st}' => '#{Status.find(c.last.last).title}' ] "
-      when "brigade_id"
-        str += "[ Бригада: '#{Brigade.find(c.last.first).title}' => '#{Brigade.find(c.last.last).title}' ] "
-      when "time_new"
-        str += "[ Время начала: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
-      when "time_at_site"
-        str += "[ Время регистрации на сайте: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
-      when "time_done"
-        str += "[ Время окончания работ: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
-      when "deadline"
-        str += "[ Краний срок: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+    if t.persised?
+      str = ""
+      t.changes.each do |c|
+        case c.first
+        when "status_id"
+          str += "[ Статус: '#{Status.find(c.last.first).title}' => '#{Status.find(c.last.last).title}' ] "
+        when "brigade_id"
+          str += "[ Бригада: '#{Brigade.find(c.last.first).title}' => '#{Brigade.find(c.last.last).title}' ] "
+        when "time_new"
+          str += "[ Время начала: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+        when "time_at_site"
+          str += "[ Время регистрации на сайте: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+        when "time_done"
+          str += "[ Время окончания работ: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+        when "deadline"
+          str += "[ Краний срок: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+        end
       end
+      msg = "Изменения: " + str + "" if str.size > 0
+      @message = Message.new(content: msg, author_id: 1, ticket_id: t.id)
+      @message.save
     end
-    msg = "Изменения: " + str + "" if str.size > 0
-    @message = Message.new(content: msg, author_id: 1, ticket_id: t.id)
-    @message.save
   end
 
   def self.to_csv(options = {})

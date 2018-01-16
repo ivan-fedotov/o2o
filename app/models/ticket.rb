@@ -44,7 +44,7 @@ class Ticket < ApplicationRecord
   end
 
   before_save do |t|
-    if t.persised?
+    if t.persisted?
       str = ""
       t.changes.each do |c|
         case c.first

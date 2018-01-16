@@ -42,7 +42,7 @@ class SitesController < ApplicationController
     @brigades = Brigade.all
     @photo = @site.photos.new
     @document = @site.documents.new
-    @photos = @site.photos.existing
+    @photos = @site.photos.site_photos.existing
     @photos_no_pc = @photos
     @documents_sl = @site.documents.sl.existing
     @documents_sp = @site.documents.sr.existing

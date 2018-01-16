@@ -72,9 +72,17 @@ class ImagesController < ApplicationController
   # DELETE /brigades/1
   # DELETE /brigades/1.json
   def destroy
+    is_pc = @image.photo_collection.nil?
+    ticket = @image.photo_collection.ticket unless is_pc
     @image.destroy
     respond_to do |format|
-      format.html { redirect_to site_path(@image.site, :anchor => 'photos'), notice: 'Image was successfully destroyed.' }
+      format.html {
+        if is_pc
+          redirect_to site_path(@image.site, :anchor => 'photos'), notice: 'Image was successfully destroyed.'
+        else
+          redirect_to ticket_path(ticket), notice: 'Image was successfully destroyed.'
+        end
+      }
       format.json { head :no_content }
     end
   end

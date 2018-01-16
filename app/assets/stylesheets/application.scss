@@ -15,10 +15,10 @@
 */
 body {
   min-width: 1120px;
-      font-size: .8em;
-      .main_container {
-        margin: 10px 10px 0px;
-      }
+  font-size: .8em;
+  .main_container {
+    margin: 10px 10px 0px;
+  }
 }
 a {
   color: black;
@@ -55,23 +55,23 @@ label {
 }
 table {
   td, th {
-        font-size: 0.9em;
-        padding: .2rem;
-        &.network_name, &.type {
-          width: 80px;
-        }
-        &.status {
-          min-width: 120px;
-        }
-        &.time {
-          min-width: 130px;
-        }
-        &.brigade {
-          white-space: nowrap;
-        }
-        &:first-child {
-          padding-left: 0.2em;
-        }
+    font-size: 0.9em;
+    padding: .2rem;
+    &.network_name, &.type {
+      width: 80px;
+    }
+    &.status {
+      min-width: 120px;
+    }
+    &.time {
+      min-width: 130px;
+    }
+    &.brigade {
+      white-space: nowrap;
+    }
+    &:first-child {
+      padding-left: 0.2em;
+    }
     div {
       height: 2em;
       overflow: hidden;
@@ -92,4 +92,19 @@ table {
 }
 .modal {
   width: 900px !important;
+}
+
+.tabs {
+  li.disabled {
+    p {
+      padding: 8px 16px;
+      margin: 0;
+      color: #313439;
+      border: 1px solid rgba(0,0,0,.1);
+      cursor: default;
+      text-decoration: none;
+      background: 0 0;
+      background-color: #ccc;
+    }
+  }
 }

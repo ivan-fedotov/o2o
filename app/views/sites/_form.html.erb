@@ -41,11 +41,19 @@
 
   <nav class="tabs" data-component="tabs">
     <ul>
-      <li class="active"><a href="#info">Информация</a></li>
+      <li class="active"><a href=" <%= params[:action]=='show' ? "#info": "" %> ">Информация</a></li>
+      <% if params[:action] == 'edit'  %>
+      <li class="active disabled"><p>Схемы связи</p></li>
+      <li class="active disabled"><p>Схемы электропитания</p></li>
+      <li class="active disabled"><p>Фотографии</p></li>
+      <li class="active disabled"><p>Письма на допуск</p></li>
+      <% else %>
       <li><a href="#schema_link">Схемы связи</a></li>
       <li><a href="#schema_power">Схемы электропитания</a></li>
       <li><a href="#photos">Фотографии</a></li>
       <li><a href="#access">Письма на допуск</a></li>
+      <% end %>
+
     </ul>
   </nav>
   <div>
@@ -97,6 +105,7 @@
     <% end %>
   </div>
   <% end %>
+  <% if params[:action] == 'show'  %>
   <div id="schema_link">
     <div class="row gutters">
       <div class="col col-2">
@@ -209,5 +218,5 @@
       </div>
     </div>
   </div>
-
+  <% end %>
 </div>

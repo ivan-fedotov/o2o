@@ -38,7 +38,7 @@
     <tbody>
       <% @brigades.each do |brigade| %>
       <tr>
-        <td><%= link_to brigade.title, brigade %></td>
+        <td class="nowrap"><%= link_to brigade.title, brigade %></td>
         <td><%= brigade.sites.size %></td>
         <td><%= brigade.tickets.size %></td>
         <% @statuses.each do |st| %>

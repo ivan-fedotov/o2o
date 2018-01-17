@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :sites do
     resources :photos
   end
-  resources :tickets do
+  resources :tickets, param: :number do
     member do
       post 'create_message'
     end

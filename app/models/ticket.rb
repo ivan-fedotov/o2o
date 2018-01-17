@@ -18,11 +18,12 @@ class Ticket < ApplicationRecord
   before_save  :send_msg
 
   attr_accessor :site_filter,       :status_filter,   :brigade_filter,  :author_filter,
-                :ticket_type_filter, :search_filter,  :content,         :skip_messaging, :marker
+  :ticket_type_filter, :search_filter,  :content,         :skip_messaging, :marker
 
   accepts_nested_attributes_for :counts, allow_destroy: true
 
   validates :ticket_type_id, presence: true
+  validates :author_id, presence: true
 
   skip_callback :save, :before, :send_msg, if: :skip_messaging
 
@@ -38,13 +39,19 @@ class Ticket < ApplicationRecord
   scope :author, -> (author) {where author_id: author}
   scope :ticket_type, -> (ticket_type) {where ticket_type_id: ticket_type}
 
-
+  before_create do |t|
+    t.chrono = ""
+  end
   after_create do |t|
     t.number = t.id.to_s.rjust(7, '0')
     t.time_new = t.created_at.localtime
     pc = t.create_photo_collection(title: t.number)
     t.skip_messaging = true
     pc.save
+  end
+
+  def to_param
+    number
   end
 
   private
@@ -73,11 +80,12 @@ class Ticket < ApplicationRecord
       when "chrono"
         str ="Коррекция хронологии"
       end
-
-      msg = "" + str + " " if str.size > 0
-      @message = Message.new(content: msg, author_id: Current.user.id, ticket_id: self.id)
-      self.skip_messaging = true
-      @message.save
+      if str.size > 0
+        msg = "" + str + " "
+        @message = Message.new(content: msg, author_id: Current.user.id, ticket_id: self.id)
+        self.skip_messaging = true
+        @message.save
+      end
     end
   end
 

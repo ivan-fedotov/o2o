@@ -60,6 +60,11 @@
               <br>
               <%= f.collection_select :author_id, @authors, :id, :name %>
             </div>
+            <div class="col col-6">
+              <!--<strong>Отчет сдан</strong> for financial controller only-->
+              <br>
+              <%#= f.check_box :reported, label: 'asd' %>
+            </div>
           </div>
 
           <div class="vertical-gut">

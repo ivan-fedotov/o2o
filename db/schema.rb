@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180117114741) do
+ActiveRecord::Schema.define(version: 20180117161416) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 20180117114741) do
     t.integer "ticket_type_id"
     t.datetime "deadline"
     t.string "chrono"
+    t.boolean "reported"
   end
 
   create_table "users", force: :cascade do |t|

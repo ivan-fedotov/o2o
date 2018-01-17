@@ -24,6 +24,7 @@ class Site < ApplicationRecord
 
   attr_accessor :brigade_filter, :search_filter
 
+  default_scope  {order(network_name: :asc)}
   scope :brigade, -> (brigade) {where brigade_id: brigade}
 
   def description

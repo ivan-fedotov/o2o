@@ -1,11 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'sessions/new'
-
-  get 'sessions/create'
-
-  get 'sessions/destroy'
-
   get 'reports/create'
   resources :reports,  only: [:new]
 
@@ -40,6 +34,7 @@ Rails.application.routes.draw do
   end
 
   get "settings", to: "pages#settings"
+  get "settings/reload", to: "pages#reload"
 
   root to: 'tickets#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

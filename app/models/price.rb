@@ -2,6 +2,6 @@ class Price < ApplicationRecord
   has_many :counts
 
   def desc
-    "#{ id } - #{description}"
+    "#{ code } - #{description}"
   end
 end

@@ -6,7 +6,9 @@
       <thead>
         <tr>
           <th>#</th>
+          <th>Code</th>
           <th>Description</th>
+          <th>Unit</th>
           <th>Price</th>
           <th colspan="3"></th>
         </tr>
@@ -16,7 +18,9 @@
         <% @prices.each do |price| %>
         <tr>
           <td><%= price.id %></td>
+          <td><%= price.code %></td>
           <td><%= price.description %></td>
+          <td><%= price.unit %></td>
           <td><%= price.price %></td>
           <td><%= link_to 'Show', price %></td>
           <td><%= link_to 'Edit', edit_price_path(price) %></td>

@@ -16,7 +16,8 @@
     <div class="col col-2">
       <div class="form-item field">
         <label for="site_network_name">Номер станции</label>
-        <%= form.text_field :network_name, id: :site_network_name, disabled: (params[:action]!='new') %>
+        <%#= form.text_field :network_name, id: :site_network_name, disabled: (params[:action]!='new') %>
+        <%= form.text_field :network_name, id: :site_network_name %>
       </div>
     </div>
     <div class="col col-2">

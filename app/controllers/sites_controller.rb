@@ -7,9 +7,9 @@ class SitesController < ApplicationController
     @s = params[:site].nil? ? Site.new : Site.new(site_params)
     @brigades = Brigade.all
     @sites = Site.all
-    @sites = @sites.paginate(:page => params[:page], :per_page => 30)
     @sites = @sites.brigade(params[:site][:brigade_filter]) if params[:site].present? and params[:site][:brigade_filter].present?
     @sites = @sites.search(params[:site][:search_filter]) if params[:site].present? and params[:site][:search_filter].present?
+    @sites = @sites.paginate(:page => params[:page], :per_page => 30)
   end
 
   # GET /sites/1

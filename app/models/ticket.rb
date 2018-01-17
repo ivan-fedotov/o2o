@@ -67,12 +67,15 @@ class Ticket < ApplicationRecord
         str += "[ Время окончания работ: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
       when "deadline"
         str += "[ Краний срок: '#{time_f(c.last.first)}' => '#{time_f(c.last.last)}' ] "
+      when "author_id"
+        s = c.last.first == nil ? "" : Account.find(c.last.first).name
+        str += "[ Ответственный: '#{ s }' => '#{Account.find(c.last.last).name}' ] "
       when "chrono"
         str ="Коррекция хронологии"
       end
 
       msg = "" + str + " " if str.size > 0
-      @message = Message.new(content: msg, author_id: 1, ticket_id: self.id)
+      @message = Message.new(content: msg, author_id: Current.user.id, ticket_id: self.id)
       self.skip_messaging = true
       @message.save
     end

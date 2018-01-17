@@ -6,12 +6,12 @@ class SessionsController < ApplicationController
 
   def create
     @session = safe_params
-    @account = Account.find_by_email(@session[:login])
+    @account = Account.find_by_email(@session[:login].downcase)
     @s = nil
     unless @account.nil?
       unless @account.password.active
         redirect_to login_path
-      else  
+      else
         session[:user_id] = @account.id if @account.password.is(@session[:password])
         redirect_to root_path
       end

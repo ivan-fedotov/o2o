@@ -8,6 +8,7 @@ class Account < ApplicationRecord
     if Account.all.size == 0
       ac.is_root = true
     end
+    ac.email.downcase!
   end
   after_create do |ac|
     p = Password.create(secret: nil, active: false, last_changed: nil, account_id: ac.id)

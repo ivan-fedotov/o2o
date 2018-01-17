@@ -100,29 +100,36 @@
               Работы
             </div>
             <div class="col col-2">
-              Цена
+              Стоимость
             </div>
-            <div class="col col-2">
+            <div class="col col-1">
               Объем
             </div>
-            <div class="col col-3">
-              Сумма
+            <div class="col col-1">
+              Ед
             </div>
             <div class="col col-2">
+              Сумма
+            </div>
+            <div class="col col-1">
+              Доп.затраты
+            </div>
+            <div class="col col-1">
+              Признак затрат
             </div>
           </div>
           <%= f.fields_for :counts do |count_form| %>
           <%= render 'count_fields', f: count_form %>
           <% end %>
           <div class="row gutters count">
-            <div class="col col-1 offset-6">
+            <div class="col col-1 offset-7">
               Итого:
             </div>
-            <div class="col col-3">
+            <div class="col col-2">
               <%= text_field_tag :result, @result, :disabled => 'disabled' %>
             </div>
             <div class="col col-2">
-              <%= link_to_add_fields "Добавить", f, :counts %>
+              <%= link_to_add_fields "+", f, :counts %>
             </div>
           </div>
           <div class="row gutters count">
@@ -130,7 +137,6 @@
               <%= f.submit "Сохранить", class: 'button'%>
             </div>
           </div>
-
         </div>
       </div>
     </div>

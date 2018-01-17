@@ -3,16 +3,45 @@
     <%= f.collection_select :price_id, Price.all, :id, :desc %>
   </div>
   <div class="col col-2">
+    <% unless f.object.price.nil? %>
+    <% if f.object.price.code == 0 %>
+    <%= f.text_field :price_on_init %>
+    <% else %>
     <%= f.text_field :price_on_init, :disabled => 'disabled' %>
+    <% end %>
+    <% end %>
+
   </div>
-  <div class="col col-2">
+  <div class="col col-1">
     <%= f.text_field :quantity %>
   </div>
-  <div class="col col-3">
-    <%= text_field_tag :sum, f.object.price_on_init.to_f * f.object.quantity.to_f, :disabled => 'disabled' %>
+  <div class="col col-1">
+    <% unless f.object.price.nil? %>
+    <%= text_field_tag :price, f.object.price.unit, :disabled => 'disabled' %>
+    <% end %>
   </div>
   <div class="col col-2">
-    <%= f.hidden_field :_destroy %>
-    <%= link_to "Удалить", '#', class: "remove_fields" %>
+    <%= text_field_tag :sum, f.object.price_on_init.to_f * f.object.quantity.to_f, :disabled => 'disabled' %>
+  </div>
+  <div class="col col-1">
+    <% unless f.object.price.nil? %>
+    <% if f.object.price.code == 0 %>
+    <%= f.text_field :extra %>
+    <% else %>
+    <%= text_field_tag :price, f.object.extra, :disabled => 'disabled' %>
+    <% end %>
+    <% end %>
+  </div>
+  <div class="col col-2">
+    <div class="row">
+      <div class="col col-6">
+        <%= f.select :is_opex, [['ОПЕКС', 0],['КАПЕКС', 1]], {}, disabled: 'disabled' %>
+      </div>
+      <div class="col col-6">
+        <%= f.hidden_field :_destroy %>
+        <%= link_to "-", '#', class: "remove_fields button" %>
+      </div>
+    </div>
+
   </div>
 </div>

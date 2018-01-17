@@ -12,19 +12,26 @@
 </div>
 <% end %>
 
-<div class="field">
-  Наименование работы
-  <%= form.text_field :description, id: :price_description %>
+<div class="field row gutters">
+  <div class="col col-2">
+    Код работ
+    <%= form.text_field :code, id: :price_code %>
+  </div>
+  <div class="col col-10">
+    Наименование работы
+    <%= form.text_field :description, id: :price_description %>
+  </div>
 </div>
 
-<div class="field">
-  Стоимость
-  <%= form.text_field :unit, id: :price_unit %>
-</div>
-
-<div class="field">
-  Стоимость
-  <%= form.text_field :price, id: :price_price %>
+<div class="field row gutters vertical-gut">
+  <div class="col col-2">
+    Единица
+    <%= form.text_field :unit, id: :price_unit %>
+  </div>
+  <div class="col col-10">
+    Стоимость
+    <%= form.text_field :price, id: :price_price %>
+  </div>
 </div>
 
 <div class="actions">

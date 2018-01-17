@@ -4,6 +4,8 @@ class Count < ApplicationRecord
 
   after_create do |c|
     c.price_on_init = c.price.price
+    c.is_opex = 0
+    c.quantity = 1 if c.price.code == 0
     c.save
   end
 end

@@ -44,7 +44,7 @@ class TicketsController < ApplicationController
     @photos = @ticket.photo_collection.photos.existing
     @result = 0
     @ticket.counts.each do |c|
-      @result += c.price_on_init * (c.quantity || 0)
+      @result += (c.price_on_init || 0) * (c.quantity || 0)
     end
   end
 
@@ -111,7 +111,7 @@ class TicketsController < ApplicationController
     @ticket_types = TicketType.all
     @result = 0
     @ticket.counts.each do |c|
-      @result += c.price_on_init * (c.quantity || 0)
+      @result += (c.price_on_init || 0) * (c.quantity || 0)
     end
     respond_to do |format|
       if @ticket.update(ticket_params)
@@ -166,7 +166,7 @@ class TicketsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ticket_params
-    params.require(:ticket).permit(:number,:sort, :direction, :deadline,  :site_id, :author_id, :ticket_type_id, :brigade_id, :title, :time_new, :time_at_site, :time_done, :status_id, :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, :content, :chrono, counts_attributes: [:id, :title, :ticket_id, :price_id, :price_on_init, :quantity, :_destroy])
+    params.require(:ticket).permit(:number,:sort, :direction, :deadline,  :site_id, :author_id, :ticket_type_id, :brigade_id, :title, :time_new, :time_at_site, :time_done, :status_id, :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, :content, :chrono, counts_attributes: [:id, :title, :ticket_id, :price_id, :price_on_init, :quantity, :is_opex, :extra, :_destroy])
   end
 
   def message_params

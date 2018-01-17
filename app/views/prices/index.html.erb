@@ -2,10 +2,9 @@
   <h3>Работы</h3>
   <div class="row">
 
-    <table>
+    <table class="table striped">
       <thead>
         <tr>
-          <th>#</th>
           <th>Code</th>
           <th>Description</th>
           <th>Unit</th>
@@ -17,7 +16,6 @@
       <tbody>
         <% @prices.each do |price| %>
         <tr>
-          <td></td>
           <td><%= price.code %></td>
           <td><%= price.description %></td>
           <td><%= price.unit %></td>

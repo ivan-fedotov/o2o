@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
 
+  resources :tickets, param: :number do
+    member do
+      post 'create_message'
+    end
+  end  
+  resources :role_permissions
   get 'reports/create'
   resources :reports,  only: [:new]
+  resources :roles, controller: :p_roles
 
   get 'photo_reports/create'
 
@@ -18,6 +25,7 @@ Rails.application.routes.draw do
         get :switch
       end
     end
+    resource :roles, controller: 'ars' , only: [:create, :destroy]
   end
   resources :brigades
   resources :ticket_types
@@ -27,11 +35,7 @@ Rails.application.routes.draw do
   resources :sites do
     resources :photos
   end
-  resources :tickets, param: :number do
-    member do
-      post 'create_message'
-    end
-  end
+
 
   get "settings", to: "pages#settings"
   get "settings/reload", to: "pages#reload"

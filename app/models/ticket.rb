@@ -42,6 +42,7 @@ class Ticket < ApplicationRecord
   before_create do |t|
     t.chrono = ""
   end
+
   after_create do |t|
     t.number = t.id.to_s.rjust(7, '0')
     t.time_new = t.created_at.localtime
@@ -55,6 +56,7 @@ class Ticket < ApplicationRecord
   end
 
   private
+
 
   def send_msg
     str = ""

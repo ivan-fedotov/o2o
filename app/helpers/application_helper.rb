@@ -1,4 +1,5 @@
 module ApplicationHelper
+  
   def time_f(time)
     if time.nil?
       ""

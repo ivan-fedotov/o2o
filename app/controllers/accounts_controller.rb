@@ -11,6 +11,8 @@ class AccountsController < ApplicationController
   # GET /accounts/1
   # GET /accounts/1.json
   def show
+    @roles_aviable = Role.all - @account.roles
+    @role = Role.new
   end
 
   # GET /accounts/new
@@ -70,6 +72,6 @@ class AccountsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
-      params.require(:account).permit(:name, :name_long, :is_service, :email)
+      params.require(:account).permit(:name, :name_long, :is_service, :email, :is_client)
     end
 end

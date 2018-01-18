@@ -1,24 +1,50 @@
-<p id="notice"><%= notice %></p>
+<div class="site_form">
+  <h3>  <%= link_to 'Пользователи', accounts_path %></h3>
+  <p>
+    Пользователь: <strong><%= @account.name_long or @account.name %></strong>
+  </p>
+  <p>
+    E-mail: <strong><%= @account.email %></strong>
+  </p>
+  <div class="row">
+    <div class="col col-4">
 
-<p>
-  <strong>Name:</strong>
-  <%= @account.name %>
-</p>
+      <div class="row">
+        <strong>Активные роли:</strong>
+      </div>
+      <% if @account.roles.size == 0 %>
+      <div class="row">
+        Нет ролей
+      </div>
+      <% end %>
 
-<p>
-  <strong>Name long:</strong>
-  <%= @account.name_long %>
-</p>
+      <%= form_for [@account, @role] do |f| %>
+      <% @account.roles.each do |r| %>
+      <div class="row gutters">
+        <div class="col col-7">
+          <p><%= text_field_tag :r, r.title, disabled: 'disabled' %></p>
+        </div>
+        <div class="col col-5">
+          <%= link_to 'Удалить', account_roles_path(@account.id, r.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "button" %>
+        </div>
+      </div>
+      <% end %>
+      <% unless @roles_aviable.size == 0 %>
+      <div class="row">
+        <strong>Доступные:</strong>
+      </div>
+      <div class="row gutters">
+        <div class="col col-7">
+          <%= f.collection_select :id, @roles_aviable, :id, :title %>
+        </div>
+        <div class="col col-5">
+          <%= f.submit "Добавить", class: 'button' %>
+        </div>
+      </div>
+      <% end %>
+      <% end %>
 
-<p>
-  <strong>Is service:</strong>
-  <%= @account.is_service %>
-</p>
+    </div>
+  </div>
 
-<p>
-  <strong>Password:</strong>
-  <%#= @account.password %>
-</p>
-
-<%= link_to 'Edit', edit_account_path(@account) %> |
-<%= link_to 'Back', accounts_path %>
+</div>

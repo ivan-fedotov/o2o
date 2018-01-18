@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180117161416) do
+ActiveRecord::Schema.define(version: 20180118205733) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 20180117161416) do
     t.datetime "updated_at", null: false
     t.string "email"
     t.boolean "is_root"
+    t.boolean "is_client"
+  end
+
+  create_table "accounts_roles", id: false, force: :cascade do |t|
+    t.integer "account_id"
+    t.integer "role_id"
+    t.index ["account_id", "role_id"], name: "index_accounts_roles_on_account_id_and_role_id", unique: true
+    t.index ["account_id"], name: "index_accounts_roles_on_account_id"
+    t.index ["role_id"], name: "index_accounts_roles_on_role_id"
   end
 
   create_table "brigades", force: :cascade do |t|
@@ -114,12 +123,20 @@ ActiveRecord::Schema.define(version: 20180117161416) do
     t.integer "code"
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.integer "division_id"
-    t.integer "user_id"
-    t.integer "access_level"
+  create_table "role_permissions", force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "status_id"
+    t.string "permissions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["role_id", "status_id"], name: "index_role_permissions_on_role_id_and_status_id", unique: true
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "permissions"
   end
 
   create_table "site_permissions", force: :cascade do |t|
@@ -157,6 +174,8 @@ ActiveRecord::Schema.define(version: 20180117161416) do
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_first"
+    t.boolean "is_hidden"
   end
 
   create_table "ticket_permissions", force: :cascade do |t|

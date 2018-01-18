@@ -34,10 +34,13 @@
     <ul>
       <% if current_user.is_root %>
       <li><%= link_to "Пользователи", accounts_path %></li>
-      <% end %>
+      <li><%= link_to "Роли пользователей", roles_path %></li>
+      <li><%= link_to "Права ролей", role_permissions_path %></li>
       <li><%= link_to "Статусы заявок", statuses_path %></li>
       <li><%= link_to "Типы заявок", ticket_types_path %></li>
-      <li><%= link_to "Работы", prices_path %></li>
+      <% end %>
+
+      <li><%= link_to "Работы", prices_path if current_user.can?(:see_prices)%></li>
     </ul>
   </div>
   <div class="main_container">

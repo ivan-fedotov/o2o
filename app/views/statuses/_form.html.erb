@@ -21,6 +21,16 @@
     <%= form.text_field :color, id: :status_color %>
   </div>
 
+  <div class="field">
+    <%= form.label :is_first %>
+    <%= form.check_box :is_first, id: :status_is_first %>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_hidden %>
+    <%= form.check_box :is_hidden, id: :status_is_hidden %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

@@ -5,7 +5,6 @@ class TicketsController < ApplicationController
   # GET /tickets
   # GET /tickets.json
   def index
-    p system('whoami')
     @brigades = Brigade.all
     @authors = Account.where(is_service: false)
     @ticket_types = TicketType.all
@@ -16,7 +15,7 @@ class TicketsController < ApplicationController
     if params[:ticket].present? and params[:ticket][:status_filter].present?
       @tickets = @tickets.status(params[:ticket][:status_filter])
     else
-      @tickets = @tickets.where("status_id != ? AND status_id != ?", 8, 9)
+      @tickets = @tickets.joins(:status).where(:statuses => {is_hidden: false})
     end
     @tickets = @tickets.site(params[:ticket][:site_filter]) if params[:ticket].present? and params[:ticket][:site_filter].present?
     @tickets = @tickets.brigade(params[:ticket][:brigade_filter]) if params[:ticket].present? and params[:ticket][:brigade_filter].present?
@@ -52,14 +51,14 @@ class TicketsController < ApplicationController
   def new
     @ticket = Ticket.new
     @sites = Site.all
-    @authors = Account.where(is_service: false)
+    @authors = Account.where(is_client: true)
     @brigades = Brigade.all
     @ticket_types = TicketType.all
   end
 
   # GET /tickets/1/edit
   def edit
-    @authors = Account.where(is_service: false)
+    @authors = Account.where(is_client: true)
     @brigades = Brigade.all
     @sites = Site.all
     @ticket_types = TicketType.all
@@ -71,9 +70,10 @@ class TicketsController < ApplicationController
     @ticket = Ticket.new(ticket_params)
     @ticket_types = TicketType.all
     @sites = Site.all
-    @authors = Account.where(is_service: false)
+    @authors = Account.where(is_client: true)
     @brigades = Brigade.all
-    @ticket.status_id = 1
+    @ticket.status_id = Status.where(is_first: true).first.id
+    @ticket.status_id = 1 if @ticket.status_id.nil?
     @ticket.brigade_id = @ticket.site.brigade_id unless @ticket.site.nil?
 
     respond_to do |format|

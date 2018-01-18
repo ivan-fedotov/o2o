@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  role_id: 1
+  status_id: 1
+  permissions: MyString
+
+two:
+  role_id: 1
+  status_id: 1
+  permissions: MyString

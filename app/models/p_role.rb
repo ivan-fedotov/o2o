@@ -1,0 +1,2 @@
+class PRole < ApplicationRecord
+end

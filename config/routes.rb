@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
   get "settings", to: "pages#settings"
   get "settings/reload", to: "pages#reload"
+  get "settings/reload_db", to: "pages#reloaddb"
 
   root to: 'tickets#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -8,7 +8,7 @@ class PagesController < ApplicationController
     end
   end
 
-  def reloaddb
+  def new_db
     if current_user.is_root
       system "cd /data/www/o2o/o2o; rake db:schema:load; rake db:seed;"
     end

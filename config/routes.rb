@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get "settings", to: "pages#settings"
+  get "settings/reload", to: "pages#reload"
+  get "settings/new_db", to: "pages#new_db"
   resources :cmd, only: [:new, :create]
 
   resources :tickets, param: :number do
@@ -37,11 +40,6 @@ Rails.application.routes.draw do
   resources :sites do
     resources :photos
   end
-
-
-  get "settings", to: "pages#settings"
-  get "settings/reload", to: "pages#reload"
-  get "settings/reload_db", to: "pages#reloaddb"
 
   root to: 'tickets#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

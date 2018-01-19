@@ -1,0 +1,20 @@
+
+<%= form_for :cmd, url: {action: :create} do |f| %>
+<div class="row">
+  <div class="col col-12">
+    <pre><%= @msg %></pre>
+  </div>
+</div>
+<div class="row">
+  <div class="col col-6 offset-3">
+    <div class="row">
+      <div class="col col-8">
+        <%= f.text_field :str %>
+      </div>
+      <div class="col col-4">
+        <%= f.submit "OK" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

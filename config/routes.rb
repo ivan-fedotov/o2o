@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
+  resources :cmd, only: [:new, :create]
+
   resources :tickets, param: :number do
     member do
       post 'create_message'
     end
-  end  
+  end
   resources :role_permissions
   get 'reports/create'
   resources :reports,  only: [:new]

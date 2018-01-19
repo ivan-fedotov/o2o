@@ -10,23 +10,29 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <strong>Роль</strong>
-    <%= form.collection_select :role_id, @roles, :id, :title, :include_blank => 'нет' %>
+  <div class="row">
+      <div class="actions">
+        <%= form.submit "Сохранить" %>
+      </div>
   </div>
+<div class="row gutters">
+  <div class="col col-2">
+    <div class="field">
+      <strong>Роль</strong>
+      <%= form.collection_select :role_id, @roles, :id, :title, :include_blank => 'нет' %>
+    </div>
 
-  <div class="field">
-    <strong>Статус</strong>
-    <%= form.collection_select :status_id, @statuses, :id, :title, :include_blank => 'нет' %>
+    <div class="field">
+      <strong>Статус</strong>
+      <%= form.collection_select :status_id, @statuses, :id, :title, :include_blank => 'нет' %>
+    </div>
   </div>
+  <div class="col col-9">
+      <div class="field">
+        <strong>Разрешения</strong>
+        <%= form.text_field :permissions, id: :role_permission_permissions %>
+      </div>
+  </div>
+</div>
 
-  <div class="field">
-    <strong>Разрешения</strong>
-    <%= form.text_field :permissions, id: :role_permission_permissions %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>

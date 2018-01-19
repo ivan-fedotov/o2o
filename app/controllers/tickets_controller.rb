@@ -15,7 +15,7 @@ class TicketsController < ApplicationController
     if params[:ticket].present? and params[:ticket][:status_filter].present?
       @tickets = @tickets.status(params[:ticket][:status_filter])
     else
-      @tickets = @tickets.joins(:status).where(:statuses => {is_hidden: false})
+      @tickets = @tickets.joins(:status).where('statuses.is_hidden IS NULL')
     end
     @tickets = @tickets.site(params[:ticket][:site_filter]) if params[:ticket].present? and params[:ticket][:site_filter].present?
     @tickets = @tickets.brigade(params[:ticket][:brigade_filter]) if params[:ticket].present? and params[:ticket][:brigade_filter].present?
@@ -35,7 +35,7 @@ class TicketsController < ApplicationController
   def show
     @sites = Site.all
     @statuses = Status.all
-    @authors = Account.where(is_service: false)
+    @authors = Account.where(is_client: true)
     @brigades = Brigade.all
     @ticket_types = TicketType.all
     @msg = @ticket.messages.new

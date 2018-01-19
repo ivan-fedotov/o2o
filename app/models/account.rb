@@ -3,7 +3,6 @@ require 'digest'
 class Account < ApplicationRecord
   has_one :password
   has_many :tickets, :foreign_key => 'author_id'
-  has_many :account_roles
   has_and_belongs_to_many :roles, :through => :accounts_roles
 
   attr_accessor :prms, :status_id

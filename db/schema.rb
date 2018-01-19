@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119065803) do
+ActiveRecord::Schema.define(version: 20180119074856) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
@@ -24,12 +24,9 @@ ActiveRecord::Schema.define(version: 20180119065803) do
   end
 
   create_table "accounts_roles", id: false, force: :cascade do |t|
+    t.integer "account_id"
     t.integer "role_id"
-    t.integer "status_id"
-    t.string "permissions"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["role_id", "status_id"], name: "index_accounts_roles_on_role_id_and_status_id", unique: true
+    t.index ["account_id", "role_id"], name: "index_accounts_roles_on_account_id_and_role_id", unique: true
   end
 
   create_table "brigades", force: :cascade do |t|
@@ -177,6 +174,7 @@ ActiveRecord::Schema.define(version: 20180119065803) do
     t.datetime "updated_at", null: false
     t.boolean "is_first"
     t.boolean "is_hidden"
+    t.integer "position"
   end
 
   create_table "ticket_permissions", force: :cascade do |t|

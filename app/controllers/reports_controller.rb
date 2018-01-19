@@ -1,4 +1,10 @@
 class ReportsController < ApplicationController
+  include ApplicationHelper
+
+  before_action do
+    check_permissions(:see_reports)
+  end
+
   def new
   end
 

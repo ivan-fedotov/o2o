@@ -1,5 +1,14 @@
 class PricesController < ApplicationController
+  include ApplicationHelper
+
   before_action :set_price, only: [:show, :edit, :update, :destroy]
+  
+  before_action only: [:index, :show] do
+    check_permissions(:see_prices)
+  end
+  before_action only: [:edit, :update, :destroy, :new] do
+    check_permissions(:edit_prices)
+  end
 
   # GET /prices
   # GET /prices.json

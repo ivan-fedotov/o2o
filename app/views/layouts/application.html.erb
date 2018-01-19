@@ -18,7 +18,9 @@
         <li><%= link_to 'Новая заявка', new_ticket_path %></li>
         <li><%= link_to 'Объекты', sites_path %></li>
         <li><%= link_to "Бригады", brigades_path %></li>
+        <% if current_user.can?(:see_reports) %>
         <li><%= link_to 'Отчеты', new_report_path %></li>
+        <% end %>
         <li>
           <a href="" data-component="dropdown" data-target="#dropdown-admin">
             Администрирование

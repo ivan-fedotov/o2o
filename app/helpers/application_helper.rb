@@ -1,5 +1,9 @@
 module ApplicationHelper
-  
+
+  def check_permissions(prm)
+    raise ActionController::RoutingError.new('Not Found')  unless current_user.can?(prm) == true
+  end
+
   def time_f(time)
     if time.nil?
       ""

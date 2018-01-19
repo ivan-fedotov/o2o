@@ -23,9 +23,12 @@ class Account < ApplicationRecord
 
   def can_st(key, s)
     return true if self.is_root == true
+
     ar = prms
     return false if ar == ([] or nil)
-    ar.key?(key) ? ar[key] : false
+
+    result = ar.key?(key) ? ar[key] : false
+    result == '1' ? true : false
   end
 
   private

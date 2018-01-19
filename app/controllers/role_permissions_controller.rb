@@ -23,6 +23,7 @@ class RolePermissionsController < ApplicationController
   def edit
     @statuses = Status.all
     @roles = Role.all
+    @permissions = Permission.new( @role_permission.permissions )
   end
 
   # POST /role_permissions
@@ -31,9 +32,10 @@ class RolePermissionsController < ApplicationController
     @role_permission = RolePermission.new(role_permission_params)
     @statuses = Status.all
     @roles = Role.all
+    @permission = Permission.new(role_permission_prms)
+    @role_permission.permissions = @permission.to_string
 
     begin
-
       respond_to do |format|
         if @role_permission.save
           format.html { redirect_to @role_permission, notice: 'Role permission was successfully created.' }
@@ -52,9 +54,16 @@ class RolePermissionsController < ApplicationController
   # PATCH/PUT /role_permissions/1
   # PATCH/PUT /role_permissions/1.json
   def update
+    @permission = Permission.new( params[:prms] )
+    p @permission
+    if @permission.size == 0
+      rp_params = role_permission_params
+    else
+      rp_params = role_permission_params.to_h.merge!( permissions: @permission.to_string )
+    end
     respond_to do |format|
-      if @role_permission.update(role_permission_params)
-        format.html { redirect_to @role_permission, notice: 'Role permission was successfully updated.' }
+      if @role_permission.update( rp_params )
+        format.html { redirect_to role_permissions_path, notice: 'Role permission was successfully updated.' }
         format.json { render :show, status: :ok, location: @role_permission }
       else
         format.html { render :edit }
@@ -82,5 +91,9 @@ class RolePermissionsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def role_permission_params
     params.require(:role_permission).permit(:role_id, :status_id, :permissions)
+  end
+
+  def role_permission_prms
+    prms = params.fetch(:prms, {}).permit!
   end
 end

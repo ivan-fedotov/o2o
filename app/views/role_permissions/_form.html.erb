@@ -19,28 +19,36 @@
   <div class="col col-2">
     <div class="field">
       <strong>Роль</strong>
-      <%= form.collection_select :role_id, @roles, :id, :title, :include_blank => 'нет' %>
+      <%= form.collection_select :role_id, @roles, :id, :title, {:include_blank => 'нет'}, {:disabled => 'disabled'} %>
     </div>
 
     <div class="field">
       <strong>Статус</strong>
-      <%= form.collection_select :status_id, @statuses, :id, :title, :include_blank => 'нет' %>
+      <%= form.collection_select :status_id, @statuses, :id, :title, {:include_blank => 'нет'}, {:disabled => 'disabled'} %>
     </div>
   </div>
   <div class="col col-9">
 
-    <div class="row">
+    <div class="row vertical-gut" id="permissions_list">
       <div class="col col-12">
         <strong>Разрешения</strong>
       </div>
-      <%= form.text_field :permissions, id: :role_permission_permissions %>
+      <div class="col col-12 vertical-gut">
+        <%= form.text_field :permissions, id: :role_permission_permissions %>
+      </div>
       <% unless @permissions.size == 0 %>
       <% @permissions.list.each do |l| %>
-      <div class="col col-2">
-        <%= check_box :prms.to_s, "#{ l }", { checked: ( @permissions.prms(l) == '1' )} %> - <%= l %>
+      <div class="col col-2" name="<%= l %>">
+        <%= check_box :prms.to_s, "#{ l }", { checked: ( @permissions.prms(l) == '1' )} %> - <%= l %> (<%= link_to "Удалить", "#", class: "del_perm" %>)
       </div>
       <% end %>
       <% end %>
+    </div>
+    <div class="row">
+      <div class="col col-3 append" id="new_permission">
+        <%= text_field_tag :new_permission, '',  id: 'new_permission_name' %>
+        <%= link_to "Создать", "#", class: "button new_permission" %>
+      </div>
     </div>
 
   </div>

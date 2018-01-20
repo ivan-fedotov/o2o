@@ -21,3 +21,12 @@ jQuery('.datetimepicker').datetimepicker({
   format:'d.m.Y H:i',
   lang:'ru'
 });
+
+$(function() {
+  $(document).on('change', '.new_param input:checkbox', function(e) {
+    $(this).parent().find("input[type=hidden]").prop('value', (1-$(this).prop('value')));
+  });
+  $(document).on('click', '.del_perm', function(e) {
+    $(this).parent().remove();
+  });
+});

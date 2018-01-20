@@ -55,12 +55,12 @@ class RolePermissionsController < ApplicationController
   # PATCH/PUT /role_permissions/1.json
   def update
     @permission = Permission.new( params[:prms] )
-    p @permission
-    if @permission.size == 0
-      rp_params = role_permission_params
-    else
+    p role_permission_params
+    #if @permission.size == 0
+    #  rp_params = role_permission_params
+    #else
       rp_params = role_permission_params.to_h.merge!( permissions: @permission.to_string )
-    end
+    #end
     respond_to do |format|
       if @role_permission.update( rp_params )
         format.html { redirect_to role_permissions_path, notice: 'Role permission was successfully updated.' }

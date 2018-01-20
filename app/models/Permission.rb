@@ -4,7 +4,7 @@ class Permission
 
   def initialize(str)
     @size = 0
-    if str.nil?
+    if str.nil? or str == ""
       instance_variable_set("@size", 0)
       return {}
     end
@@ -28,6 +28,7 @@ class Permission
   end
 
   def to_string
+    return "" if @size == 0
     result = Hash.new
     list.each do |l|
       var_name = "@#{l.to_s}"

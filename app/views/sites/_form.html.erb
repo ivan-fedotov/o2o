@@ -43,7 +43,7 @@
   <nav class="tabs" data-component="tabs">
     <ul>
       <li class="active"><a href=" <%= params[:action]=='show' ? "#info": "" %> ">Информация</a></li>
-      <% if params[:action] == 'edit'  %>
+      <% if params[:action] == 'edit' or !current_user.can?('view_docs') %>
       <li class="active disabled"><p>Схемы связи</p></li>
       <li class="active disabled"><p>Схемы электропитания</p></li>
       <li class="active disabled"><p>Фотографии</p></li>
@@ -100,21 +100,25 @@
     </div>
     <% else %>
     <div class="col">
-      <%= link_to 'Редактировать', edit_site_path(@site) %> |
+      <% if current_user.can?('edit_sites') %>
+        <%= link_to 'Редактировать', edit_site_path(@site) %> |
+      <% end %>
       <%= link_to 'К списку', sites_path %>
     </div>
     <% end %>
   </div>
   <% end %>
-  <% if params[:action] == 'show'  %>
+  <% if params[:action] == 'show' and current_user.can?('view_docs') %>
   <div id="schema_link">
     <div class="row gutters">
       <div class="col col-2">
+        <% if current_user.can?('edit_docs') %>
         <%= form_for @document, html: { multipart: true } do |f| %>
         <%= f.hidden_field :site_id %>
         <%= f.hidden_field :doctype, value: '0' %>
         <%= f.file_field :file %>
         <%= f.submit 'Загрузить', class: 'button' %>
+        <% end %>
         <% end %>
       </div>
 
@@ -123,7 +127,10 @@
         <% @documents_sl.each do |doc| %>
         <div class="row">
           <!-- Renders image -->
-          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp; (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp;
+          <% if current_user.can?('edit_docs') %>
+            (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+          <% end %>
         </div>
         <% end %>
       </div>
@@ -132,11 +139,13 @@
   <div id="schema_power">
     <div class="row gutters">
       <div class="col col-2">
+        <% if current_user.can?('edit_docs') %>
         <%= form_for @document, html: { multipart: true } do |f| %>
         <%= f.hidden_field :site_id %>
         <%= f.hidden_field :doctype, value: '1' %>
         <%= f.file_field :file %>
         <%= f.submit 'Загрузить', class: 'button' %>
+        <% end %>
         <% end %>
       </div>
 
@@ -145,7 +154,10 @@
         <% @documents_sp.each do |doc| %>
         <div class="row">
           <!-- Renders image -->
-          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp; (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp;
+          <% if current_user.can?('edit_docs') %>
+          (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+          <% end %>
         </div>
         <% end %>
       </div>
@@ -154,25 +166,28 @@
   <div id="photos">
     <div class="row gutters">
       <div class="col col-2">
+        <% if current_user.can?('edit_docs') %>
         <%= form_for @photo, html: { multipart: true } do |f| %>
         <%= f.hidden_field :site_id %>
         <%= f.hidden_field :message_id, value: '1' %>
         <%= f.file_field :image %>
         <%= f.submit 'Загрузить', class: 'button' %>
         <% end %>
+        <% end %>
       </div>
 
       <div class="col col-9 offset-1">
-        <div class="row gutters">
+        <div class="row gutters vertical-gut">
           <% @photos.no_pc.each do |photo| %>
           <div class="col col-2">
             <!-- Renders image -->
             <%= link_to image_tag(photo.image.url(:thumb), class: 'media-object'), photo.image.url, target: '_blank' %>
-            <%= link_to 'Удалить', photo_path(photo), class: 'btn btn-danger', method: :delete, data: {confirm: 'Are you sure?'} %>
+            <% if current_user.can?('edit_docs') %>
+              <%= link_to 'Удалить', photo_path(photo), class: 'btn btn-danger', method: :delete, data: {confirm: 'Are you sure?'} %>
+            <% end %>
           </div>
           <% end %>
         </div>
-        <hr>
         <div class="row gutters vertical-gut">
           <% @site.photo_collections.each do |pc| %>
           <% if pc.photos.size > 0 %>
@@ -200,11 +215,13 @@
   <div id="access">
     <div class="row gutters">
       <div class="col col-2">
+        <% if current_user.can?('edit_docs') %>
         <%= form_for @document, html: { multipart: true } do |f| %>
         <%= f.hidden_field :site_id %>
         <%= f.hidden_field :doctype, value: '2' %>
         <%= f.file_field :file %>
         <%= f.submit 'Загрузить', class: 'button' %>
+        <% end %>
         <% end %>
       </div>
 
@@ -213,7 +230,10 @@
         <% @documents_ac.each do |doc| %>
         <div class="row">
           <!-- Renders image -->
-          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp; (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+          <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp;
+          <% if current_user.can?('edit_docs') %>
+          (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+          <% end %>
         </div>
         <% end %>
       </div>

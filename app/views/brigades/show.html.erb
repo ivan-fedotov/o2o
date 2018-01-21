@@ -12,7 +12,9 @@
     <%= f.text_area :description, rows: '8', disabled: 'disabled'%>
   </p>
 
-  <%= link_to 'Редактировать', edit_brigade_path(@brigade) %> |
+  <% if current_user.can?('edit_brigades') %>
+    <%= link_to 'Редактировать', edit_brigade_path(@brigade) %> |
+  <% end %>
   <%= link_to 'К списку', brigades_path %>
 
   <% end %>

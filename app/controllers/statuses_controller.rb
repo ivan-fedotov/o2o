@@ -1,6 +1,6 @@
 class StatusesController < ApplicationController
   before_action :set_status, only: [:show, :edit, :update, :destroy]
-
+before_action :get_permissions
   # GET /statuses
   # GET /statuses.json
   def index
@@ -70,5 +70,9 @@ class StatusesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def status_params
       params.require(:status).permit(:title, :color, :is_first, :is_hidden, :position)
+    end
+
+    def get_permissions
+      raise ActionController::RoutingError.new('Not Found') unless current_user.can?('edit_statuses')
     end
 end

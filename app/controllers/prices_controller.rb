@@ -1,14 +1,7 @@
 class PricesController < ApplicationController
   include ApplicationHelper
-
   before_action :set_price, only: [:show, :edit, :update, :destroy]
-  
-  before_action only: [:index, :show] do
-    check_permissions(:see_prices)
-  end
-  before_action only: [:edit, :update, :destroy, :new] do
-    check_permissions(:edit_prices)
-  end
+  before_action :get_permissions
 
   # GET /prices
   # GET /prices.json
@@ -71,13 +64,17 @@ class PricesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_price
-      @price = Price.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_price
+    @price = Price.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def price_params
-      params.require(:price).permit(:description, :price, :unit, :code)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def price_params
+    params.require(:price).permit(:description, :price, :unit, :code)
+  end
+
+  def get_permissions
+    raise ActionController::RoutingError.new('Not Found') unless current_user.can?('edit_prices')
+  end
 end

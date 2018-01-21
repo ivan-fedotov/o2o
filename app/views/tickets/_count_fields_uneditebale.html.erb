@@ -1,0 +1,33 @@
+<div class="row gutters count vertical-gut">
+  <div class="col col-3">
+    <%= "#{f.object.price.code} - #{f.object.price.description}" unless f.object.price.nil?%>
+  </div>
+  <div class="col col-2">
+    <%= f.object.price_on_init %>
+  </div>
+  <div class="col col-1">
+    <%= f.object.quantity %>
+  </div>
+  <div class="col col-1">
+    <%= f.object.price.unit %>
+  </div>
+  <div class="col col-2">
+    <%= f.object.price_on_init.to_f * f.object.quantity.to_f %>
+  </div>
+  <div class="col col-1">
+    <%= f.object.extra %>
+  </div>
+  <div class="col col-2">
+    <div class="row">
+      <div class="col col-6">
+        <% if current_user.can_st?('change_is_opex', @ticket.status_id) %>
+        <%= f.select :is_opex, [['ОПЕКС', 0],['КАПЕКС', 1]], {} %>
+        <% else %>
+        <%= (f.object.is_opex == 0) ? "ОПЕКС" : "КАПЕКС" %>
+        <% end %>
+
+      </div>
+    </div>
+
+  </div>
+</div>

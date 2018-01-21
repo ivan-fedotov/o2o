@@ -18,13 +18,13 @@ class Account < ApplicationRecord
   end
 
   def can?(key)
-    can_st(key, nil)
+    can_st?(key, nil)
   end
 
-  def can_st(key, s)
+  def can_st?(key, s)
     return true if self.is_root == true
 
-    ar = prms
+    ar = prms(s)
     return false if ar == ([] or nil)
 
     result = ar.key?(key) ? ar[key] : false
@@ -33,22 +33,28 @@ class Account < ApplicationRecord
 
   private
 
-  def prms
+  def prms(s)
     result = []
-    s = status_id
-    p "STATUS - #{ self.roles }"
     return result if self.roles.size == 0
+
+    statuses = []
+    statuses << nil
+    statuses << s unless s.nil?
     self.roles.each do |role|
-      p_str = role.role_permissions.where(status_id: s).first.permissions
-      result << eval(p_str)
+      statuses.each do |stat|
+        rprms = role.role_permissions.where(status_id: stat).first
+        p_str = rprms.permissions unless rprms.nil?
+        result << eval(p_str) unless p_str == ""
+      end
     end
+
     conjunc_array result
   end
 
   def conjunc_couple( hash1, hash2 )
     result = hash1
     result.each do |k, v|
-      result[k] = (v | hash2[k]) if hash2.key?(k)
+      result[k] = (v or hash2[k]) if hash2.key?(k)
       hash2.delete(k)
     end
     result.update(hash2) if hash2.size > 0
@@ -59,7 +65,7 @@ class Account < ApplicationRecord
     arr.each do |a|
       conjunc_couple(result, a)
     end
-    p "DATA - #{ result }"
+    #p "DATA - #{ result }"
     result
   end
 end

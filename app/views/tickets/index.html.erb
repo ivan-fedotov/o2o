@@ -76,7 +76,7 @@
 
     <tbody>
       <% @tickets.each do |ticket| %>
-      <tr class="<%= get_color_by_deadline( ticket.deadline, ticket.ticket_type.id == 2 ) %>">
+      <tr class="<%= get_color_by_deadline( ticket.deadline, ticket.ticket_type.id == 2 ) unless ticket.status.is_hidden == true %>">
         <td class="network_name"><%= link_to ticket.number, ticket_path(ticket) %></td>
         <td class="network_name"><%= link_to ticket.site.network_name, ticket_path(ticket) %></td>
         <td class="type"><%= link_to (ticket.ticket_type.nil?)? "-" : ticket.ticket_type.title , ticket_path(ticket) %></td>

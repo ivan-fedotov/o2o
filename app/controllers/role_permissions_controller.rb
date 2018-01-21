@@ -1,5 +1,6 @@
 class RolePermissionsController < ApplicationController
   before_action :set_role_permission, only: [:show, :edit, :update, :destroy]
+  before_action :get_permissions
 
   # GET /role_permissions
   # GET /role_permissions.json
@@ -95,5 +96,9 @@ class RolePermissionsController < ApplicationController
 
   def role_permission_prms
     prms = params.fetch(:prms, {}).permit!
+  end
+
+  def get_permissions
+    raise ActionController::RoutingError.new('Not Found') unless current_user.can?('edit_permissions')
   end
 end

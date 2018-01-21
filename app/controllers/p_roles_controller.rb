@@ -1,5 +1,6 @@
 class PRolesController < ApplicationController
   before_action :set_role, only: [:show, :edit, :update, :destroy]
+  before_action :get_permissions
 
   # GET /roles
   # GET /roles.json
@@ -70,5 +71,9 @@ class PRolesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def role_params
       params.require(:role).permit(:title, :permissions)
+    end
+
+    def get_permissions
+      raise ActionController::RoutingError.new('Not Found') unless current_user.can?('edit_roles')
     end
 end

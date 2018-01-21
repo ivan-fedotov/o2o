@@ -15,34 +15,49 @@
     <nav>
       <ul>
         <li><%= link_to 'Заявки', root_path %></li>
-        <li><%= link_to 'Новая заявка', new_ticket_path if current_user.can?('open_ticket') %></li>
+        <% if current_user.can?('open_ticket') %>
+          <li><%= link_to 'Новая заявка', new_ticket_path %></li>
+        <% end %>
         <li><%= link_to 'Объекты', sites_path %></li>
         <li><%= link_to "Бригады", brigades_path %></li>
-        <% if current_user.can?(:see_reports) %>
-        <li><%= link_to 'Отчеты', new_report_path %></li>
+        <% if current_user.can?('get_reports') %>
+          <li><%= link_to 'Отчеты', new_report_path %></li>
         <% end %>
-        <li>
-          <a href="" data-component="dropdown" data-target="#dropdown-admin">
-            Администрирование
-            <span class="caret down"></span>
-          </a>
-        </li>
-        <li><%#= link_to 'Выход(s)', destroy_user_session_path, method: :delete %></li>
+        <% if current_user.can?('edit_accounts') or current_user.can?('edit_prices') or current_user.can?('edit_ticket_types') or current_user.can?('edit_statuses') or current_user.can?('edit_roles') or current_user.can?('edit_permissions') %>
+          <li>
+            <a href="" data-component="dropdown" data-target="#dropdown-admin">
+              Администрирование
+              <span class="caret down"></span>
+            </a>
+          </li>
+        <% end %>
         <li><%= link_to "Выход (#{current_user.name})", logout_path %></li>
       </ul>
     </nav>
   </div>
   <div class="dropdown hide" id="dropdown-admin">
     <ul>
-      <% if current_user.is_root %>
-      <li><%= link_to "Пользователи", accounts_path %></li>
-      <li><%= link_to "Роли пользователей", roles_path %></li>
-      <li><%= link_to "Права ролей", role_permissions_path %></li>
-      <li><%= link_to "Статусы заявок", statuses_path %></li>
-      <li><%= link_to "Типы заявок", ticket_types_path %></li>
+      <% #if current_user.is_root %>
+      <% if true %>
+        <% if current_user.can?('edit_accounts')  %>
+          <li><%= link_to "Пользователи", accounts_path %></li>
+        <% end %>
+        <% if current_user.can?('edit_roles')  %>
+          <li><%= link_to "Роли пользователей", roles_path %></li>
+        <% end %>
+        <% if current_user.can?('edit_permissions')  %>
+          <li><%= link_to "Права ролей", role_permissions_path %></li>
+        <% end %>
+        <% if current_user.can?('edit_statuses')  %>
+          <li><%= link_to "Статусы заявок", statuses_path %></li>
+        <% end %>
+        <% if current_user.can?('edit_ticket_types')  %>
+          <li><%= link_to "Типы заявок", ticket_types_path %></li>
+        <% end %>
       <% end %>
-
-      <li><%= link_to "Работы", prices_path if current_user.can?(:see_prices)%></li>
+      <% if current_user.can?('edit_prices') %>
+        <li><%= link_to "Работы", prices_path %></li>
+      <% end %>
     </ul>
   </div>
   <div class="main_container">

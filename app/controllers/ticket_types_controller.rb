@@ -1,5 +1,6 @@
 class TicketTypesController < ApplicationController
   before_action :set_ticket_type, only: [:show, :edit, :update, :destroy]
+  before_action :get_permissions
 
   # GET /ticket_types
   # GET /ticket_types.json
@@ -70,5 +71,9 @@ class TicketTypesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def ticket_type_params
       params.require(:ticket_type).permit(:title)
+    end
+
+    def get_permissions
+      raise ActionController::RoutingError.new('Not Found') unless current_user.can?('edit_ticket_types')
     end
 end

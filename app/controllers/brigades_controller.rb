@@ -1,6 +1,7 @@
 class BrigadesController < ApplicationController
   before_action :set_brigade, only: [:show, :edit, :update, :destroy]
-
+  before_action :get_permissions, only: [:new, :create, :edit, :update, :destroy]
+  before_action :get_permissions_on_show, only: [:show]
   # GET /brigades
   # GET /brigades.json
   def index
@@ -73,5 +74,13 @@ class BrigadesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def brigade_params
       params.require(:brigade).permit(:title, :description, :search_filter)
+    end
+
+    def get_permissions
+      raise ActionController::RoutingError.new('Not Found') unless current_user.can?('edit_brigades')
+    end
+
+    def get_permissions_on_show
+      raise ActionController::RoutingError.new('Not Found') unless current_user.can?('see_brigade')
     end
 end

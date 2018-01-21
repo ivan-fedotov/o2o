@@ -1,6 +1,7 @@
 class TicketsController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_action :set_ticket, only: [:show, :edit, :update, :destroy, :create_message]
+  before_action :get_permissions
 
   # GET /tickets
   # GET /tickets.json
@@ -179,5 +180,13 @@ class TicketsController < ApplicationController
 
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
+  def get_permissions
+    raise ActionController::RoutingError.new('Not Found') if ["edit", "destroy"].include?(params[:action])
+    raise ActionController::RoutingError.new('Not Found') if ["show"].include?(params[:action]) and !current_user.can?('see_ticket')
+    raise ActionController::RoutingError.new('Not Found') if ["update"].include?(params[:action]) and !current_user.can?('edit_ticket')
+    raise ActionController::RoutingError.new('Not Found') if ["create_message"].include?(params[:action]) and !current_user.can?('send_ticket_message') 
+    raise ActionController::RoutingError.new('Not Found') if (!current_user.can?('open_ticket') and ["new", "create"].include?(params[:action]))
   end
 end

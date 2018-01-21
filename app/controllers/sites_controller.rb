@@ -1,6 +1,7 @@
 class SitesController < ApplicationController
   before_action :set_site, only: [:show, :edit, :update, :destroy]
-
+  before_action :get_permissions, only: ["new", "create", "edit", "update", "destroy"]
+  before_action :get_permissions_on_show, only: ["show"]
   # GET /sites
   # GET /sites.json
   def index
@@ -99,5 +100,13 @@ class SitesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def site_params
     params.require(:site).permit(:network_name, :adress_info, :distance, :access_info, :keys_info, :power_info, :etc, :brigade_id, :brigade_filter, :search_filter)
+  end
+
+  def get_permissions
+    raise ActionController::RoutingError.new('Not Found') unless current_user.can?('edit_sites')
+  end
+
+  def get_permissions_on_show
+    raise ActionController::RoutingError.new('Not Found') unless current_user.can?('see_site')
   end
 end

@@ -1,13 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  name_long: MyString
+  name: User1
+  name_long: "User1 User1 User1"
   is_service: false
-  password: MyString
+  password: 123123
+  email: user1@tele2.ru
+  is_client: true
+  is_root: false
 
 two:
-  name: MyString
-  name_long: MyString
+  name: User2
+  name_long: "User2 User2 User2"
   is_service: false
-  password: MyString
+  password: 321321
+  email: user2@tele2.ru
+  is_client: true
+  is_root: false

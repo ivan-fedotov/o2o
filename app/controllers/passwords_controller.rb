@@ -1,4 +1,6 @@
 class PasswordsController < ApplicationController
+  before_action :get_permissions
+
   def new
     @password = Account.find(params[:account_id]).password
   end
@@ -26,4 +28,9 @@ class PasswordsController < ApplicationController
   def safe_params
     params.require(:password).permit(:secret)
   end
+
+  def get_permissions
+    raise ActionController::RoutingError.new('Not Found') unless current_user.can?('edit_accounts')
+  end
+
 end

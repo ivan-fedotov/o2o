@@ -17,6 +17,16 @@ class Account < ApplicationRecord
     p = Password.create(secret: nil, active: false, last_changed: nil, account_id: ac.id)
   end
 
+  def statuses(s)
+    result = []
+    self.roles.each do |role|
+      role_permission = role.role_permissions.where(status_id: s).first
+      str = role_permission.statuses unless role_permission.nil?
+      result << eval(str) unless str == "" or str.nil?
+    end
+    result.flatten.uniq
+  end
+
   def can?(key)
     can_st?(key, nil)
   end
@@ -44,7 +54,7 @@ class Account < ApplicationRecord
       statuses.each do |stat|
         rprms = role.role_permissions.where(status_id: stat).first
         p_str = rprms.permissions unless rprms.nil?
-        result << eval(p_str) unless p_str == ""
+        result << eval(p_str) unless p_str == "" or p_str.nil?
       end
     end
 

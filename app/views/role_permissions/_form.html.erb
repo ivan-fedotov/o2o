@@ -44,10 +44,16 @@
       <% end %>
       <% end %>
     </div>
-    <div class="row">
+    <div class="row vertical-gut">
       <div class="col col-3 append" id="new_permission">
         <%= text_field_tag :new_permission, '',  id: 'new_permission_name' %>
         <%= link_to "Создать", "#", class: "button new_permission" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-12 prepend">
+        <span>Статусы</span>
+        <%= form.text_field :statuses %>
       </div>
     </div>
 

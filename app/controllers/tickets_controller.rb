@@ -35,7 +35,9 @@ class TicketsController < ApplicationController
   # GET /tickets/1.json
   def show
     @sites = Site.all
-    @statuses = Status.all
+    @role_statuses = current_user.statuses(@ticket.status_id)
+    p @role_statuses
+    @statuses = (@role_statuses == []) ? Status.all : Status.find(@role_statuses)
     @authors = Account.where(is_client: true)
     @brigades = Brigade.all
     @ticket_types = TicketType.all
@@ -186,7 +188,7 @@ class TicketsController < ApplicationController
     raise ActionController::RoutingError.new('Not Found') if ["edit", "destroy"].include?(params[:action])
     raise ActionController::RoutingError.new('Not Found') if ["show"].include?(params[:action]) and !current_user.can?('see_ticket')
     raise ActionController::RoutingError.new('Not Found') if ["update"].include?(params[:action]) and !current_user.can?('edit_ticket')
-    raise ActionController::RoutingError.new('Not Found') if ["create_message"].include?(params[:action]) and !current_user.can?('send_ticket_message') 
+    raise ActionController::RoutingError.new('Not Found') if ["create_message"].include?(params[:action]) and !current_user.can?('send_ticket_message')
     raise ActionController::RoutingError.new('Not Found') if (!current_user.can?('open_ticket') and ["new", "create"].include?(params[:action]))
   end
 end

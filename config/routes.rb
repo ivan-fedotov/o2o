@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  get "settings", to: "pages#settings"
+  get "profile", to: "pages#settings"
   get "settings/reload", to: "pages#reload"
-  get "settings/new_db", to: "pages#new_db"
+  #get "settings/new_db", to: "pages#new_db"
   resources :cmd, only: [:new, :create]
 
   resources :tickets, param: :number do

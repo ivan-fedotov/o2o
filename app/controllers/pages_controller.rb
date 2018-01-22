@@ -1,5 +1,7 @@
 class PagesController < ApplicationController
   def settings
+    @account = current_user
+    @password = @account.password
   end
 
   def reload

@@ -1,5 +1,5 @@
 class PasswordsController < ApplicationController
-  before_action :get_permissions
+  before_action :get_permissions, only: [:new, :switch]
 
   def new
     @password = Account.find(params[:account_id]).password
@@ -8,7 +8,11 @@ class PasswordsController < ApplicationController
   def update
     @password = Account.find(params[:account_id]).password
     if @password.set_password( safe_params[:secret] )
-      redirect_to accounts_path
+      if @password.account == Current.user
+        redirect_to profile_path, :notice => "Password changed"
+      else
+        redirect_to accounts_path
+      end
     else
       render :new
     end

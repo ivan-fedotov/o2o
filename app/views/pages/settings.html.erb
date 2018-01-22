@@ -1,8 +1,14 @@
 <div class="site_form">
   <h3>Настройки</h3>
-  <ul>
-    <li><%= link_to "Статусы заявок", statuses_path, class: "btn btn-primary" %></li>
-    <li><%= link_to "Типы заявок", ticket_types_path, class: "btn btn-primary" %></li>
-    <li><%= link_to "Бригады", brigades_path, class: "btn btn-primary" %></li>
-  </ul>
+  <div class="row">
+    <div class="col col-12">
+      <span>Сменить пароль</span>
+    </div>
+    <div class="col col-12">
+      <%= form_for [@account, @password] do |f| %>
+        <%= f.password_field :secret %><br>
+        <%= f.submit "ОК" %>
+      <% end %>
+    </div>
+  </div>
 </div>

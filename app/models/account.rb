@@ -34,7 +34,8 @@ class Account < ApplicationRecord
   def can_st?(key, s)
     return true if self.is_root == true
 
-    ar = (!@param_str.nil?) ? @param_str : prms(s)
+    #ar = (!@param_str.nil?) ? @param_str : prms(s)
+    ar = prms(s)
     #p ar
     return false if ar == [] or ar.nil?
 

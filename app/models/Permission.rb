@@ -1,4 +1,5 @@
 class Permission
+
   attr_accessor :list, :values
   attr_reader :size
 

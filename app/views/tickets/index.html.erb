@@ -22,7 +22,6 @@
         </div>
         <div class="col col-3">
           <div class="prepend">
-
             <span>Статус</span>
             <%= f.collection_select( :status_filter, @statuses.all, :id, :title, {:include_blank => "Все"}, { class: 'small'}) %>
           </div>
@@ -79,7 +78,7 @@
       <tr class="<%= get_color_by_deadline( ticket.deadline, ticket.ticket_type.id == 2 ) unless ticket.status.is_hidden == true %>">
         <td class="network_name"><%= link_to ticket.number, ticket_path(ticket) %></td>
         <td class="network_name"><%= link_to ticket.site.network_name, ticket_path(ticket) %></td>
-        <td class="type"><%= link_to (ticket.ticket_type.nil?)? "-" : ticket.ticket_type.title , ticket_path(ticket) %></td>
+        <td class="type"><%= link_to ticket.ticket_type.title, ticket_path(ticket) %></td>
         <td class="status"><%= link_to ticket.status.title, ticket_path(ticket) %></td>
         <td class="time"><%= time_f(ticket.time_new) %></td>
         <td class="time"><%= time_f(ticket.deadline) %></td>

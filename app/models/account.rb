@@ -34,8 +34,8 @@ class Account < ApplicationRecord
   def can_st?(key, s)
     return true if self.is_root == true
 
-    ar = prms(s)
-    return false if ar == ([] or nil)
+    ar = (!@param_str.nil?) ? @param_str : prms(s)
+    return false if ar == [] or ar.nil?
 
     result = ar.key?(key) ? ar[key] : false
     result == '1' ? true : false
@@ -57,8 +57,7 @@ class Account < ApplicationRecord
         result << eval(p_str) unless p_str == "" or p_str.nil?
       end
     end
-
-    conjunc_array result
+    @param_str = conjunc_array result
   end
 
   def conjunc_couple( hash1, hash2 )

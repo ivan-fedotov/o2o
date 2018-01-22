@@ -35,6 +35,7 @@ class Account < ApplicationRecord
     return true if self.is_root == true
 
     ar = (!@param_str.nil?) ? @param_str : prms(s)
+    p ar
     return false if ar == [] or ar.nil?
 
     result = ar.key?(key) ? ar[key] : false
@@ -57,7 +58,7 @@ class Account < ApplicationRecord
         result << eval(p_str) unless p_str == "" or p_str.nil?
       end
     end
-    @param_str = conjunc_array result
+    @param_str = conjunc_array(result)
   end
 
   def conjunc_couple( hash1, hash2 )

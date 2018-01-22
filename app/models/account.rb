@@ -35,7 +35,7 @@ class Account < ApplicationRecord
     return true if self.is_root == true
 
     ar = (!@param_str.nil?) ? @param_str : prms(s)
-    p ar
+    #p ar
     return false if ar == [] or ar.nil?
 
     result = ar.key?(key) ? ar[key] : false
@@ -55,25 +55,32 @@ class Account < ApplicationRecord
       statuses.each do |stat|
         rprms = role.role_permissions.where(status_id: stat).first
         p_str = rprms.permissions unless rprms.nil?
+        #p "PERMISSIONS - #{ p_str }"
         result << eval(p_str) unless p_str == "" or p_str.nil?
       end
     end
+    p "arrays - #{result.size}"
     @param_str = conjunc_array(result)
+    #p "PARAM STRING - #{@param_str.size}"
+    @param_str
   end
 
   def conjunc_couple( hash1, hash2 )
     result = hash1
     result.each do |k, v|
-      result[k] = (v or hash2[k]) if hash2.key?(k)
+      result[k] = (hash2.key?(k) and hash2[k] == '1') ? '1' : v
+      p "#{k}: h1 - #{v} :: h2 - #{ hash2[k] }"
+      p "        result: #{ result[k] }"
       hash2.delete(k)
     end
     result.update(hash2) if hash2.size > 0
+    result
   end
 
   def conjunc_array(arr)
     result = arr.shift
     arr.each do |a|
-      conjunc_couple(result, a)
+      result = conjunc_couple(result, a)
     end
     #p "DATA - #{ result }"
     result

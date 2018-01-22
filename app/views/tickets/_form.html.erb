@@ -15,13 +15,21 @@
     <div class="col col-2">
       <div class="field">
         <strong>Тип заявки</strong>
-        <%= form.collection_select  :ticket_type_id, @ticket_types, :id, :title, :include_blank => true %>
+        <%= form.collection_select  :ticket_type_id, @ticket_types, :id, :title, :include_blank => 'не выбрано' %>
       </div>
     </div>
     <div class="col col-5"><!--7-->
       <div class="field">
         <strong>Объект</strong>
-        <%= form.collection_select  :site_id, @sites, :id, :description, :include_blank => true %>
+        <div class="row">
+          <div class="col col-5 prepend">
+            <span>Пск</span>
+            <%= text_field_tag :site_srch %>
+          </div>
+          <div class="col col-7" id="sites_aviable">
+            <%= form.collection_select :site_id, @sites, :id, :description, :include_blank => 'не выбрано' %>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col col-2"><!--7-->
@@ -33,7 +41,7 @@
     <div class="col col-3">
       <div class="field">
         <strong>Ответственный</strong>
-        <%= form.collection_select  :author_id, @authors, :id, :name, :include_blank => "[нет]" %>
+        <%= form.collection_select  :author_id, @authors, :id, :name, :include_blank => "не выбрано" %>
       </div>
     </div>
   </div>

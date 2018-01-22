@@ -1,0 +1,8 @@
+<div id="sites_aviable">
+  <% if @sites.size > 0 %>
+    <%= collection_select  :ticket, :site_id, @sites, :id, :description if @sites.size == 1%>
+    <%= collection_select  :ticket, :site_id, @sites, :id, :description, :include_blank => 'не выбрано' if @sites.size > 1 %>
+  <% else %>
+    <input type="text" value="не найдено" disabled>
+  <% end %>
+</div>

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   get "profile", to: "pages#settings"
   get "settings/reload", to: "pages#reload"
+  get "get_sites", to: "pages#get_sites"
   #get "settings/new_db", to: "pages#new_db"
   resources :cmd, only: [:new, :create]
 

@@ -29,4 +29,11 @@ $(function() {
   $(document).on('click', '.del_perm', function(e) {
     $(this).parent().remove();
   });
+  $('#site_srch').keyup(function(e){
+    $.get('../get_sites?site_srch=' + $(this).val(), function(data){
+      //alert( $(data).find("#sites_aviable").html() );
+      $("#sites_aviable").html($(data).find("#sites_aviable").html());
+    });
+    e.preventDefault();
+  });
 });

@@ -4,6 +4,15 @@ class PagesController < ApplicationController
     @password = @account.password
   end
 
+  def get_sites
+    if params[:site_srch].present? and params[:site_srch] != ""
+      @sites = Site.search(params[:site_srch])
+    else
+      @sites = Site.all
+    end
+    render :nothing => true
+  end
+
   def reload
     if current_user.is_root
       system "cd /data/www/o2o/o2o; git pull o2o master;"

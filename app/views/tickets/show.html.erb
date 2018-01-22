@@ -34,9 +34,9 @@
               <strong><u>Тип заявки</u></strong>
               <br>
               <% if current_user.can_st?('edit_ticket_type', @ticket.status_id) %>
-              <%= f.collection_select :ticket_type, @ticket_types, :id, :title %>
+                <%= f.collection_select :ticket_type_id, @ticket_types, :id, :title %>
               <% else %>
-              <%= @ticket.ticket_type.title %>
+                <%= @ticket.ticket_type.title %>
               <% end %>
             </div>
           </div>

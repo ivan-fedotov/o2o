@@ -36,4 +36,9 @@ $(function() {
     });
     e.preventDefault();
   });
+  $('#tt select').change(function(e){
+    $.get('../get_deadline?tt=' + $(this).val(), function(data){
+      $(document).find("#deadline_field div").html($(data).find("#get_deadline").html())
+    });
+  })
 });

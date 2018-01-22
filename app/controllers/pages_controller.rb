@@ -13,6 +13,13 @@ class PagesController < ApplicationController
     render :nothing => true
   end
 
+  def get_deadline
+    if params[:tt].present? and params[:tt] != ""
+      @deadline = params[:tt] == '1' ? Time.now + 4.hours : Time.now + 7.days
+    end
+    render :nothing => true
+  end
+
   def reload
     if current_user.is_root
       system "cd /data/www/o2o/o2o; git pull o2o master;"

@@ -54,6 +54,7 @@ class TicketsController < ApplicationController
   def new
     @ticket = Ticket.new
     @sites = Site.all
+    @ticket.author_id = current_user.id if current_user.is_client
     @authors = Account.where(is_client: true)
     @brigades = Brigade.all
     @ticket_types = TicketType.all

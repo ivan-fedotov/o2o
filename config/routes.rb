@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   resources :statuses
   resources :photos, controller: 'images'
   resources :documents
+  resources :ticket_descriptions
   resources :sites do
     resources :photos
   end

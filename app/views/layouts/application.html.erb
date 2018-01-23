@@ -55,6 +55,9 @@
         <% if current_user.can?('edit_ticket_types')  %>
           <li><%= link_to "Типы заявок", ticket_types_path %></li>
         <% end %>
+        <% if current_user.can?('edit_statuses')  %>
+          <li><%= link_to "Описания заявок", ticket_descriptions_path %></li>
+        <% end %>
       <% end %>
       <% if current_user.can?('edit_prices') %>
         <li><%= link_to "Работы", prices_path %></li>

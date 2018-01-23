@@ -84,20 +84,27 @@
         <td class="time"><%= time_f(ticket.deadline) %></td>
         <td class="time"><%= time_f(ticket.time_at_site) %></td>
         <td class="time"><%= time_f(ticket.time_done) %></td>
-        <td><div><%= link_to ticket.title, ticket_path(ticket) %></div></td>
+        <td><div>
+          <% if ticket.ticket_description.nil? %>
+          <%= link_to ticket.title, ticket_path(ticket) %>
+          <% else %>
+          <%= link_to ticket.ticket_description.title, ticket_path(ticket) %>
+          <% end %>
+        </div></td>
         <td><div>
           <% unless ticket.author.nil? %>
           <%= link_to ticket.author.name, ticket_path(ticket) %></div></td>
           <% end %>
-        <td class="brigade"><div><%= link_to ticket.brigade.title, ticket_path(ticket) %></td></div></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-<%= will_paginate @tickets %>
-  <br>
-  <%= link_to "Экспорт в XLS", safe_params.merge(:format => :xls) %>
-</div>
-<% else %>
+          <td class="brigade"><div><%= link_to ticket.brigade.title, ticket_path(ticket) %></td></div></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate @tickets %>
+    <br>
+    <%= link_to "Экспорт в XLS", safe_params.merge(:format => :xls) %>
+  </div>
+  <% else %>
   <p>Заяки отсутствуют.</p>
-<% end %>
+  <% end %>
+<br><br>

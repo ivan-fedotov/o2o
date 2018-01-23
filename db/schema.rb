@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180121195315) do
+ActiveRecord::Schema.define(version: 20180123093230) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
@@ -178,6 +178,12 @@ ActiveRecord::Schema.define(version: 20180121195315) do
     t.integer "position"
   end
 
+  create_table "ticket_descriptions", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ticket_permissions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "division_id"
@@ -217,6 +223,7 @@ ActiveRecord::Schema.define(version: 20180121195315) do
     t.datetime "deadline"
     t.string "chrono"
     t.boolean "reported"
+    t.integer "ticket_description_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -11,6 +11,7 @@ class TicketsController < ApplicationController
     @ticket_types = TicketType.all
     @sites = Site.all
     @statuses = Status.all
+    @ticket_descriptions = TicketDescription.all
     @t = params[:ticket].nil? ? Ticket.new : Ticket.new(ticket_params)
     @tickets = Ticket.all
     if params[:ticket].present? and params[:ticket][:status_filter].present?
@@ -41,6 +42,7 @@ class TicketsController < ApplicationController
     @authors = Account.where(is_client: true)
     @brigades = Brigade.all
     @ticket_types = TicketType.all
+    @ticket_descriptions = TicketDescription.all
     @msg = @ticket.messages.new
     @photo = @ticket.photo_collection.photos.new
     @photos = @ticket.photo_collection.photos.existing
@@ -58,6 +60,7 @@ class TicketsController < ApplicationController
     @authors = Account.where(is_client: true)
     @brigades = Brigade.all
     @ticket_types = TicketType.all
+    @ticket_descriptions = TicketDescription.all
   end
 
   # GET /tickets/1/edit
@@ -66,6 +69,7 @@ class TicketsController < ApplicationController
     @brigades = Brigade.all
     @sites = Site.all
     @ticket_types = TicketType.all
+    @ticket_descriptions = TicketDescription.all
   end
 
   # POST /tickets
@@ -79,6 +83,7 @@ class TicketsController < ApplicationController
     @ticket.status_id = Status.where(is_first: true).first.id
     @ticket.status_id = 1 if @ticket.status_id.nil?
     @ticket.brigade_id = @ticket.site.brigade_id unless @ticket.site.nil?
+    @ticket_descriptions = TicketDescription.all
 
     respond_to do |format|
       if @ticket.save
@@ -113,6 +118,7 @@ class TicketsController < ApplicationController
     @authors = Account.where(is_service: false)
     @brigades = Brigade.all
     @ticket_types = TicketType.all
+    @ticket_descriptions = TicketDescription.all
     @result = 0
     @ticket.counts.each do |c|
       @result += (c.price_on_init || 0) * (c.quantity || 0)
@@ -141,6 +147,7 @@ class TicketsController < ApplicationController
   def create_message
     @message = Message.new(message_params)
     @ticket_types = TicketType.all
+    @ticket_descriptions = TicketDescription.all
     @sites = Site.all
     @authors = Account.where(is_service: false)
     @brigades = Brigade.all
@@ -170,7 +177,7 @@ class TicketsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ticket_params
-    params.require(:ticket).permit(:number,:sort, :direction, :deadline, :reported,  :site_id, :author_id, :ticket_type_id, :brigade_id, :title, :time_new, :time_at_site, :time_done, :status_id, :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, :content, :chrono, counts_attributes: [:id, :title, :ticket_id, :price_id, :price_on_init, :quantity, :is_opex, :extra, :_destroy])
+    params.require(:ticket).permit(:number, :sort, :direction,:ticket_description_id, :deadline, :reported,  :site_id, :author_id, :ticket_type_id, :brigade_id, :title, :time_new, :time_at_site, :time_done, :status_id, :site_filter, :status_filter, :brigade_filter, :author_filter, :ticket_type_filter, :search_filter, :content, :chrono, counts_attributes: [:id, :title, :ticket_id, :price_id, :price_on_init, :quantity, :is_opex, :extra, :_destroy])
   end
 
   def message_params

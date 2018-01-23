@@ -49,7 +49,8 @@
   </div>
   <div class="row">
     <strong>Описание</strong>
-    <%= form.text_field :title, id: :ticket_title, :rows => 4 %>
+    <%= form.collection_select :ticket_description_id, @ticket_descriptions, :id, :title, :include_blank => 'не выбрано' %>
+    <%#= form.text_field :title, id: :ticket_title, :rows => 4 %>
   </div>
   <div class="row">
     <strong>Дополнительная информация</strong>

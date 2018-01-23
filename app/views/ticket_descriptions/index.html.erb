@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ticket Descriptions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ticket_descriptions.each do |ticket_description| %>
+      <tr>
+        <td><%= ticket_description.title %></td>
+        <td><%= link_to 'Show', ticket_description %></td>
+        <td><%= link_to 'Edit', edit_ticket_description_path(ticket_description) %></td>
+        <td><%= link_to 'Destroy', ticket_description, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ticket Description', new_ticket_description_path %>

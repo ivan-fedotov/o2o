@@ -1,0 +1,2 @@
+module TicketDescriptionsHelper
+end

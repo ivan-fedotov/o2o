@@ -17,6 +17,7 @@
         <Cell><Data ss:Type="String">Регистрация на сайте</Data></Cell>
         <Cell><Data ss:Type="String">Завершено</Data></Cell>
         <Cell><Data ss:Type="String">Описание</Data></Cell>
+        <Cell><Data ss:Type="String">Вводные данные</Data></Cell>
         <Cell><Data ss:Type="String">Ответственный Теле2</Data></Cell>
         <Cell><Data ss:Type="String">Бригада РТК</Data></Cell>
       </Row>
@@ -31,6 +32,7 @@
         <Cell><Data ss:Type="String"><%= time_f(ticket.time_at_site) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= time_f(ticket.time_done) %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ticket.title %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ticket.messages.first.content %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ticket.author.name unless ticket.author.nil? %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ticket.brigade.title %></Data></Cell>
       </Row>

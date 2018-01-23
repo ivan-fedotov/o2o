@@ -31,9 +31,12 @@ $(function() {
   });
   $('#site_srch').keyup(function(e){
     $.get('../get_sites?site_srch=' + $(this).val(), function(data){
-      //alert( $(data).find("#sites_aviable").html() );
-      $("#sites_aviable").html($(data).find("#sites_aviable").html());
-      $(document).find('#sites_aviable select').trigger("change");
+      $("#sites_aviable").html( $(data).find("#sites_aviable").html());
+      if ($(document).find("#sites_aviable input").attr('disabled')== "disabled"){
+        $(document).find("#deadline_field div").html('<input value="" class="datetimepicker small" type="text" name="ticket[deadline]" id="ticket_deadline">');
+      }
+      $("#sites_aviable select").trigger("change");
+      //$(document).find('#sites_aviable')[0].find('select').trigger("change");
     });
     e.preventDefault();
   });
@@ -51,15 +54,14 @@ $(function() {
     });
   });
 
-  $('#sites_aviable select').change(function(e){
-    alert($(this).val());
+  $('#sites_aviable').on('change', 'select',  function(e){
     var tt = $(document).find("#tt select").val();
     var url = '../get_deadline?tt=' + tt;
     site_str = "&site=" + $(this).val();
     url = url + site_str;
 
     $.get(url, function(data){
-      $(document).find("#deadline_field div").html($(data).find("#get_deadline").html())
+      $(document).find("#deadline_field div").html( $(data).find("#get_deadline").html() );
     });
   });
 });

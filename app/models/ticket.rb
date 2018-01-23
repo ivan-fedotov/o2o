@@ -3,7 +3,7 @@ class Ticket < ApplicationRecord
 
   has_one :photo_collection
   has_many :photos, through: :photo_collection
-  belongs_to :ticket_description, optional: true
+  belongs_to :ticket_description
   belongs_to :site
   belongs_to :status
   belongs_to :brigade

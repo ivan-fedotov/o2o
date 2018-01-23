@@ -85,11 +85,7 @@
         <td class="time"><%= time_f(ticket.time_at_site) %></td>
         <td class="time"><%= time_f(ticket.time_done) %></td>
         <td><div>
-          <% if ticket.ticket_description.nil? %>
-          <%= link_to ticket.title, ticket_path(ticket) %>
-          <% else %>
           <%= link_to ticket.ticket_description.title, ticket_path(ticket) %>
-          <% end %>
         </div></td>
         <td><div>
           <% unless ticket.author.nil? %>

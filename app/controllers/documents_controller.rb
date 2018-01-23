@@ -32,7 +32,7 @@ class DocumentsController < ApplicationController
 
       respond_to do |format|
         if @document.save
-          format.html { redirect_to site_path(@document.site, :anchor => get_doctype(@document)), notice: 'Image was successfully created.' }
+          format.html { redirect_to site_path(@document.site, :anchor => get_doctype(@document)), notice: 'Document was successfully created.' }
           format.json { render :show, status: :created, location: @document }
         else
           format.html {
@@ -49,7 +49,7 @@ class DocumentsController < ApplicationController
     def update
       respond_to do |format|
         if @document.update(document_params)
-          format.html { redirect_to @document, notice: 'Image was successfully updated.' }
+          format.html { redirect_to @document, notice: 'Document was successfully updated.' }
           format.json { render :show, status: :ok, location: @document }
         else
           format.html { render :edit }

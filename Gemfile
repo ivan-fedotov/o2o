@@ -20,6 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'therubyracer', platforms: :ruby
 gem 'execjs'
 
+gem 'viewpoint'
 gem 'roo'
 
 gem 'will_paginate'

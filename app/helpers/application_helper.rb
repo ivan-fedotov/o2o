@@ -27,17 +27,16 @@ module ApplicationHelper
     diff = ((dl.to_datetime - Time.now.to_datetime) * 24).to_f
     unless plan
       #p "a - #{diff}"
-      return "dl7" if diff > 3
-      return "dl6" if diff > 2
-      return "dl5" if diff > 1
-      return "dl4"
+      return "dl_ok" if diff > 0
+      return "dl_notice" if diff > -1
+      return "dl_warning" if diff > -2
+      return "dl_alert"
     else
       #p "p - #{diff}"
-      return "dl4" if diff < 0
-      return "dl7" if diff > (6*24)
-      return "dl6" if diff > (5*24)
-      return "dl5" if diff > (4*24)
-      return "dl4"
+      return "dl_ok" if diff > 0
+      return "dl_notice" if diff > (-2*24)
+      return "dl_warning" if diff > (-4*24)
+      return "dl_alert"
     end
   end
   def sortable(column, title = nil)

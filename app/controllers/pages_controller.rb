@@ -14,8 +14,14 @@ class PagesController < ApplicationController
   end
 
   def get_deadline
+    @site = Site.find(params[:site]) if params[:site].present? and params[:site] != ""
+
     if params[:tt].present? and params[:tt] != ""
-      @deadline = params[:tt] == '1' ? Time.now + 4.hours : Time.now + 7.days
+      if @site.nil?
+        @deadline = ""
+      else
+        @deadline = params[:tt] == '1' ? Time.now + (1.hour + (@site.distance.to_f/60.to_f).hours) : Time.now + 3.days
+      end
     end
     render :nothing => true
   end

@@ -6,7 +6,7 @@ class BrigadesController < ApplicationController
   # GET /brigades.json
   def index
     @b = params[:brigade].nil? ? Brigade.new : Brigade.new(brigade_params)
-    @brigades = Brigade.all
+    @brigades = Brigade.order("title asc")
     @brigades = @brigades.search(params[:brigade][:search_filter]) if params[:brigade].present? and params[:brigade][:search_filter].present?
     @statuses = Status.all
   end

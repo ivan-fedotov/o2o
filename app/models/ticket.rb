@@ -58,7 +58,6 @@ class Ticket < ApplicationRecord
 
   private
 
-
   def send_msg
     str = ""
     self.changes.each do |c|

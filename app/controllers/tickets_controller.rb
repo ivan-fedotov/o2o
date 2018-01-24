@@ -95,9 +95,7 @@ class TicketsController < ApplicationController
           end
         end
         msg = "Заявка создана."
-        unless @ticket.content.nil?
-          msg = msg + " Доп. информация: =#{ @ticket.content }="
-        end
+        msg = msg + " Доп. информация: =#{ @ticket.content }=" unless @ticket.content.nil?
         @message = Message.new(content: msg, author_id: current_user.id, ticket_id: @ticket.id)
         @message.save
         @ticket.save
@@ -125,6 +123,9 @@ class TicketsController < ApplicationController
     end
     respond_to do |format|
       if @ticket.update(ticket_params)
+        if @ticket.time_done.nil? and @ticket.status_id == 5
+          @ticket.update_attribute(:time_done, Time.now)
+        end
         format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
         format.json { render :show, status: :ok, location: @ticket }
       else

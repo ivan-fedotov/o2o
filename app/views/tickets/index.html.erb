@@ -65,8 +65,8 @@
         <th><%= sortable 'status_id', 'Статус'%></th>
         <th><%= sortable 'time_new', 'Начало'%></th>
         <th><%= sortable 'deadline', 'Крайний срок'%></th>
-        <th><%= sortable 'time_at_site', 'Регистрация'%></th>
-        <th><%= sortable 'time_done', 'Завершено'%></th>
+        <th><%= sortable 'time_at_site', 'Регистрация на сайте'%></th>
+        <th><%= sortable 'time_done', 'Завершение работ на сайте'%></th>
         <th><%= sortable 'description', 'Описание'%></th>
         <th><%= sortable 'author_id', 'Ответственный Т2'%></th>
         <th><%= sortable 'brigade_id', 'Бригада О2О'%></th>
@@ -75,7 +75,7 @@
 
     <tbody>
       <% @tickets.each do |ticket| %>
-      <tr class="<%= get_color_by_deadline( ticket.deadline, ticket.ticket_type.id == 2 ) unless ticket.status.is_hidden == true %>">
+      <tr class="<%= get_color_by_deadline( ticket.deadline, ticket.ticket_type.id == 2 ) unless (ticket.status.is_hidden == true or !ticket.time_at_site.nil?) %>">
         <td class="network_name"><%= link_to ticket.number, ticket_path(ticket) %></td>
         <td class="network_name"><%= link_to ticket.site.network_name, ticket_path(ticket) %></td>
         <td class="type"><%= link_to ticket.ticket_type.title, ticket_path(ticket) %></td>

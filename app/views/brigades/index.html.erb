@@ -43,10 +43,10 @@
       <% @brigades.each do |brigade| %>
       <tr>
         <td class="nowrap"><%= link_to brigade.title, brigade %></td>
-        <td><%= brigade.sites.size %></td>
-        <td><%= brigade.tickets.size %></td>
+        <td><%= link_to brigade.sites.size, {controller: :sites, action: :index, 'site[brigade_filter]': brigade.id} %></td>
+        <td><%= link_to brigade.tickets.size, {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id} %></td>
         <% @statuses.each do |st| %>
-        <td><%= brigade.tickets.status(st).size %></td>
+        <td><%= link_to brigade.tickets.status(st).size, {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id, 'ticket[status_filter]': st.id} %></td>
         <% end %>
       </tr>
       <% end %>

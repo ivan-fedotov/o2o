@@ -1,9 +1,7 @@
 class ReportsController < ApplicationController
   include ApplicationHelper
 
-  before_action do
-    check_permissions(:see_reports)
-  end
+  before_action :get_permissions
 
   def new
   end
@@ -22,4 +20,9 @@ class ReportsController < ApplicationController
   def query_params
     params.require(:query).permit(:start_time, :end_time)
   end
+
+  def get_permissions
+    raise ActionController::RoutingError.new('Not Found') unless current_user.can?('get_reports')
+  end
+
 end

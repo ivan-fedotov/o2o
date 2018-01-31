@@ -89,7 +89,7 @@ class Ticket < ApplicationRecord
         @message.save
       end
     end
-    if self.status.pos == 5
+    if self.status.position == 5
       self.time_done = Time.now
     end
   end

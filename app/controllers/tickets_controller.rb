@@ -7,7 +7,7 @@ class TicketsController < ApplicationController
   # GET /tickets.json
   def index
     @brigades = Brigade.all
-    @authors = Account.where(is_service: false)
+    @authors = Account.where(is_client: true)
     @ticket_types = TicketType.all
     @sites = Site.all
     @statuses = Status.all

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180123093230) do
+ActiveRecord::Schema.define(version: 20180131082209) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
@@ -65,6 +65,22 @@ ActiveRecord::Schema.define(version: 20180123093230) do
     t.datetime "file_updated_at"
     t.integer "site_id"
     t.integer "doctype"
+    t.integer "ticket_id"
+  end
+
+  create_table "issues", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "state", default: "new"
+    t.datetime "time_new"
+    t.datetime "time_registration_at_site"
+    t.datetime "time_finish"
+    t.datetime "time_deadline"
+    t.integer "ticket_description_id"
+    t.integer "brigade_id"
+    t.string "chrono"
+    t.integer "ticket_type_id"
+    t.integer "responsible_id"
   end
 
   create_table "jobs", force: :cascade do |t|

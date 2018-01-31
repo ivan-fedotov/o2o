@@ -10,6 +10,12 @@ class Ticket < ApplicationRecord
   belongs_to :ticket_type
   belongs_to :author, :class_name => 'Account', :foreign_key => 'author_id', optional: true
   has_many :counts
+  has_many :documents do
+    def persisted
+      collect{ |m| m if m.persisted? }
+    end
+  end
+  
   has_many :messages, :dependent => :destroy do
     def persisted
       collect{ |m| m if m.persisted? }

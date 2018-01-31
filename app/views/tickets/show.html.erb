@@ -34,9 +34,9 @@
               <strong><u>Тип заявки</u></strong>
               <br>
               <% if current_user.can_st?('edit_ticket_type', @ticket.status_id) %>
-                <%= f.collection_select :ticket_type_id, @ticket_types, :id, :title %>
+              <%= f.collection_select :ticket_type_id, @ticket_types, :id, :title %>
               <% else %>
-                <%= @ticket.ticket_type.title %>
+              <%= @ticket.ticket_type.title %>
               <% end %>
             </div>
           </div>
@@ -139,98 +139,98 @@
           <%= f.text_field :time_done, value: time_f(f.object.time_done), class: 'datetimepicker small', disabled:'disabled' %>
           <% end %>
         </div>
-      </div>
-    </fieldset>
-    <% if current_user.can_st?('see_calculation', @ticket.status_id) %>
-    <div id="calc-modal" class="modal-box hide">
-      <div class="modal">
-        <span class="close"></span>
-        <div class="modal-header">Калькуляция</div>
-        <div class="modal-body">
-          <div class="row gutters count vertical-gut ">
-            <div class="col col-3">
-              Работы
-            </div>
-            <div class="col col-2">
-              Стоимость
-            </div>
-            <div class="col col-1">
-              Объем
-            </div>
-            <div class="col col-1">
-              Ед
-            </div>
-            <div class="col col-2">
-              Сумма
-            </div>
-            <div class="col col-1">
-              Доп.затраты
-            </div>
-            <div class="col col-1">
-              Признак затрат
-            </div>
-          </div>
-          <%= f.fields_for :counts do |count_form| %>
-          <% if current_user.can_st?('edit_calculation', @ticket.status_id) %>
-          <%= render 'count_fields', f: count_form %>
-          <% else %>
-          <%= render 'count_fields_uneditebale', f: count_form %>
-          <% end %>
-          <% end %>
-          <div class="row gutters count">
-            <div class="col col-1 offset-7">
-              Итого:
-            </div>
-            <div class="col col-2">
+        <% if current_user.can_st?('see_calculation', @ticket.status_id) %>
+        <div id="calc-modal" class="modal-box hide">
+          <div class="modal">
+            <span class="close"></span>
+            <div class="modal-header">Калькуляция</div>
+            <div class="modal-body">
+              <div class="row gutters count vertical-gut ">
+                <div class="col col-3">
+                  Работы
+                </div>
+                <div class="col col-2">
+                  Стоимость
+                </div>
+                <div class="col col-1">
+                  Объем
+                </div>
+                <div class="col col-1">
+                  Ед
+                </div>
+                <div class="col col-2">
+                  Сумма
+                </div>
+                <div class="col col-1">
+                  Доп.затраты
+                </div>
+                <div class="col col-1">
+                  Признак затрат
+                </div>
+              </div>
+              <%= f.fields_for :counts do |count_form| %>
               <% if current_user.can_st?('edit_calculation', @ticket.status_id) %>
-              <%= text_field_tag :result, @result, :disabled => 'disabled' %>
+              <%= render 'count_fields', f: count_form %>
               <% else %>
-              <%= @result %>
+              <%= render 'count_fields_uneditebale', f: count_form %>
               <% end %>
-            </div>
-            <div class="col col-2">
-              <% if current_user.can_st?('edit_calculation', @ticket.status_id) %>
-              <%= link_to_add_fields "+", f, :counts %>
               <% end %>
+              <div class="row gutters count">
+                <div class="col col-1 offset-7">
+                  Итого:
+                </div>
+                <div class="col col-2">
+                  <% if current_user.can_st?('edit_calculation', @ticket.status_id) %>
+                  <%= text_field_tag :result, @result, :disabled => 'disabled' %>
+                  <% else %>
+                  <%= @result %>
+                  <% end %>
+                </div>
+                <div class="col col-2">
+                  <% if current_user.can_st?('edit_calculation', @ticket.status_id) %>
+                  <%= link_to_add_fields "+", f, :counts %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="row gutters count">
+                <div class="col col-2 offset-10">
+                  <% if current_user.can_st?('edit_calculation', @ticket.status_id) or current_user.can_st?('change_is_opex', @ticket.status_id) %>
+                  <%= f.submit "Сохранить", class: 'button'%>
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="row gutters count">
-            <div class="col col-2 offset-10">
-              <% if current_user.can_st?('edit_calculation', @ticket.status_id) or current_user.can_st?('change_is_opex', @ticket.status_id) %>
-              <%= f.submit "Сохранить", class: 'button'%>
-              <% end %>
+        </div>
+        <% end %>
+        <% if current_user.can_st?('see_chronology', @ticket.status_id) %>
+        <div id="chrono-modal" class="modal-box hide">
+          <div class="modal">
+            <span class="close"></span>
+            <div class="modal-header">Хронология</div>
+            <div class="modal-body">
+              <div class="row gutters">
+                <% if current_user.can_st?('edit_chronology', @ticket.status_id) and current_user.can_st?('edit_ticket', @ticket.status_id) %>
+                <div class="col col-12 vertical-gut">
+                  <%= f.text_area :chrono, rows: '15'%>
+                </div>
+                <div class="col col-2 offset-10">
+                  <%= f.submit "Сохранить", class: 'button'%>
+                </div>
+                <% else %>
+                <div class="col col-12 vertical-gut">
+                  <%= @ticket.chrono %>
+                </div>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
+        <% end %>
       </div>
+      <% end %>
     </div>
-    <% end %>
-    <% if current_user.can_st?('see_chronology', @ticket.status_id) %>
-    <div id="chrono-modal" class="modal-box hide">
-      <div class="modal">
-        <span class="close"></span>
-        <div class="modal-header">Хронология</div>
-        <div class="modal-body">
-          <div class="row gutters">
-            <% if current_user.can_st?('edit_chronology', @ticket.status_id) and current_user.can_st?('edit_ticket', @ticket.status_id) %>
-            <div class="col col-12 vertical-gut">
-              <%= f.text_area :chrono, rows: '15'%>
-            </div>
-            <div class="col col-2 offset-10">
-              <%= f.submit "Сохранить", class: 'button'%>
-            </div>
-            <% else %>
-            <div class="col col-12 vertical-gut">
-              <%= @ticket.chrono %>
-            </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <% end %>
-    <% end %>
-  </div>
+  </fieldset>
 
   <div class="col col-5">
     <fieldset>
@@ -261,6 +261,38 @@
           </div>
         </div>
         <% end %>
+      </div>
+    </fieldset>
+  </div>
+  <div class="col col-12">
+
+    <fieldset>
+      <legend>Файлы</legend>
+      <div class="row gutters">
+        <div class="col col-2">
+          <% if current_user.can?('edit_docs') %>
+          <%= form_for @document, html: { multipart: true } do |f| %>
+          <%= f.hidden_field :site_id, value: @ticket.site.id %>
+          <%= f.hidden_field :ticket_id %>
+          <%= f.hidden_field :doctype, value: '0' %>
+          <%= f.file_field :file %>
+          <%= f.submit 'Загрузить', class: 'button' %>
+          <% end %>
+          <% end %>
+        </div>
+
+        <div class="col col-9 offset-1">
+
+          <% @documents.each do |doc| %>
+          <div class="row">
+            <!-- Renders image -->
+            <%= link_to doc.file_file_name, doc.file.url, target: '_blank' %> &nbsp;&nbsp;
+            <% if current_user.can?('edit_docs') %>
+              (<%= link_to 'Удалить', document_path(doc), method: :delete, data: {confirm: 'Are you sure?'} %>)
+            <% end %>
+          </div>
+          <% end %>
+        </div>
       </div>
     </fieldset>
   </div>

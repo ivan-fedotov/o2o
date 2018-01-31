@@ -1,5 +1,6 @@
 class Document < ApplicationRecord
   belongs_to :site
+  belongs_to :ticket, optional: true
   has_attached_file :file
 
   attr_accessor :site_filter, :author_filter

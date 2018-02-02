@@ -8,7 +8,7 @@ class ReportsController < ApplicationController
 
   def create
     @query = query_params.to_h
-    @tickets = Ticket.where(:time_done => DateTime.parse(@query[:start_time])..DateTime.parse(@query[:end_time]))
+    @tickets = Ticket.where(:time_done => DateTime.parse(@query[:start_time])..DateTime.parse(@query[:end_time]), :status_id => 8..9).reject {|t| t.counts.size < 1}
     respond_to do |format|
       format.html { }
       format.xls { }

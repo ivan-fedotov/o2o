@@ -1,58 +1,52 @@
 
 <?xml version="1.0"?>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
-  xmlns:o="urn:schemas-microsoft-com:office:office"
-  xmlns:x="urn:schemas-microsoft-com:office:excel"
-  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
-  xmlns:html="http://www.w3.org/TR/REC-html40">
-  <Worksheet ss:Name="Sheet1">
-    <Table>
-      <Row>
-        <Cell><Data ss:Type="String">№пп</Data></Cell>
-        <Cell><Data ss:Type="String">Заявка</Data></Cell>
-        <Cell><Data ss:Type="String">Тип заявки</Data></Cell>
-        <Cell><Data ss:Type="String">БС</Data></Cell>
-        <Cell><Data ss:Type="String">Начало события</Data></Cell>
-        <Cell><Data ss:Type="String">Завершено</Data></Cell>
-        <Cell><Data ss:Type="String">Количество</Data></Cell>
-        <Cell><Data ss:Type="String">Расстояние</Data></Cell>
-        <Cell><Data ss:Type="String">Ставка за км.</Data></Cell>
-        <Cell><Data ss:Type="String">Плата за пробег</Data></Cell>
-        <Cell><Data ss:Type="String">Стоимость за еденицу</Data></Cell>
-        <Cell><Data ss:Type="String">Код работы</Data></Cell>
-        <Cell><Data ss:Type="String">Плата за генератор</Data></Cell>
-        <Cell><Data ss:Type="String">Плата за дор.затраты</Data></Cell>
-        <Cell><Data ss:Type="String">Всего за задание</Data></Cell>
-        <Cell><Data ss:Type="String">Адрес</Data></Cell>
-        <Cell><Data ss:Type="String">Наименование работы</Data></Cell>
-        <Cell><Data ss:Type="String">Комментарии</Data></Cell>
-        <Cell><Data ss:Type="String">Описание</Data></Cell>
-        <Cell><Data ss:Type="String">Результат</Data></Cell>
-      </Row>
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+xmlns:html="http://www.w3.org/TR/REC-html40">
+<Worksheet ss:Name="Sheet1">
+  <Table>
+    <Row>
+      <Cell><Data ss:Type="String">№пп</Data></Cell>
+      <Cell><Data ss:Type="String">Заявка</Data></Cell>
+      <Cell><Data ss:Type="String">Тип заявки</Data></Cell>
+      <Cell><Data ss:Type="String">БС</Data></Cell>
+      <Cell><Data ss:Type="String">Время начала работ</Data></Cell>
+      <Cell><Data ss:Type="String">Время окончания работ</Data></Cell>
+      <Cell><Data ss:Type="String">Количество</Data></Cell>
+      <Cell><Data ss:Type="String">Цена за единицу</Data></Cell>
+      <Cell><Data ss:Type="String">Код работы</Data></Cell>
+      <Cell><Data ss:Type="String">Доп. затараты</Data></Cell>
+      <Cell><Data ss:Type="String">Всего за задание</Data></Cell>
+      <Cell><Data ss:Type="String">Адрес</Data></Cell>
+      <Cell><Data ss:Type="String">Наименование работы</Data></Cell>
+      <Cell><Data ss:Type="String">Комментарии</Data></Cell>
+      <Cell><Data ss:Type="String">Описание</Data></Cell>
+    </Row>
+    <% row = 1 %>
     <% @tickets.each_with_index do |ticket, i| %>
-      <Row>
-        <Cell><Data ss:Type="String"><%= i %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= ticket.number %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= ticket.ticket_type.title %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= ticket.site.network_name %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= time_f(ticket.time_new) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= time_f(ticket.time_done) %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= ticket.site.distance %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= ticket.site.adress_info %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= ticket.chrono %></Data></Cell>
-        <Cell><Data ss:Type="String"><%= ticket.title  %></Data></Cell>
-        <Cell><Data ss:Type="String"><%=  %></Data></Cell>
-      </Row>
+    <% ticket.counts.each do |count| %>
+    <Row>
+      <Cell><Data ss:Type="String"><%= row %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= ticket.number %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= ticket.ticket_type.title %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= ticket.site.network_name %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= time_f(ticket.time_new) %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= time_f(ticket.time_done) %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= count.quantity %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= count.price_on_init %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= count.price.code %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= count.extra %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= count.quantity.to_f * count.price_on_init.to_f %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= ticket.site.adress_info %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= count.price.description %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= ticket.chrono %></Data></Cell>
+      <Cell><Data ss:Type="String"><%= ticket.ticket_type.title %> <%= ticket.messages.first.content %></Data></Cell>
+    </Row>
+    <% row += 1 %>
     <% end %>
-    </Table>
-  </Worksheet>
+    <% end %>
+  </Table>
+</Worksheet>
 </Workbook>

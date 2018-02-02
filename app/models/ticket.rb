@@ -15,7 +15,7 @@ class Ticket < ApplicationRecord
       collect{ |m| m if m.persisted? }
     end
   end
-  
+
   has_many :messages, :dependent => :destroy do
     def persisted
       collect{ |m| m if m.persisted? }

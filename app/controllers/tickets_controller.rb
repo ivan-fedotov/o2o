@@ -7,7 +7,7 @@ class TicketsController < ApplicationController
   # GET /tickets.json
   def index
     @brigades = Brigade.all
-    @authors = Account.where(is_client: true)#.order('created_at desc')
+    @authors = Account.where(is_client: true).order('name asc')
     @ticket_types = TicketType.all
     @sites = Site.all
     @statuses = Status.all
@@ -187,7 +187,7 @@ class TicketsController < ApplicationController
   end
 
   def sort_column
-    Ticket.column_names.include?(params[:sort]) ? params[:sort] : "deadline"
+    Ticket.column_names.include?(params[:sort]) ? params[:sort] : "time_new"
   end
 
   def sort_direction

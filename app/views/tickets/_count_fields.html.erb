@@ -1,6 +1,6 @@
 <div class="row gutters count vertical-gut">
   <div class="col col-3">
-    <%= f.collection_select :price_id, Price.all, :id, :desc %>
+    <%= f.collection_select :price_id, Price.where.not(text_code: nil).order('text_code'), :id, :desc %>
   </div>
   <div class="col col-2">
     <% unless f.object.price.nil? %>

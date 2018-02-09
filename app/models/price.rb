@@ -3,6 +3,6 @@ class Price < ApplicationRecord
 
   default_scope {order("code asc")}
   def desc
-    "#{ self.code } - #{ description }"
+    "#{ self.text_code } - #{ description }"
   end
 end

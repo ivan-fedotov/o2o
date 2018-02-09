@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131082209) do
+ActiveRecord::Schema.define(version: 20180209084843) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20180131082209) do
     t.decimal "price", precision: 8, scale: 2
     t.string "unit"
     t.integer "code"
+    t.string "text_code"
   end
 
   create_table "role_permissions", force: :cascade do |t|

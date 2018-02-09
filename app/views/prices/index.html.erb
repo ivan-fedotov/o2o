@@ -6,6 +6,7 @@
       <thead>
         <tr>
           <th>Code</th>
+          <th>Text Code</th>
           <th>Description</th>
           <th>Unit</th>
           <th>Price</th>
@@ -17,6 +18,7 @@
         <% @prices.each do |price| %>
         <tr>
           <td><%= price.code %></td>
+          <td><%= price.text_code %></td>
           <td><%= price.description %></td>
           <td><%= price.unit %></td>
           <td><%= price.price %></td>

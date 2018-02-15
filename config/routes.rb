@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   get "profile", to: "pages#settings"
+  get "stat", to: 'pages#statistics'
   get "settings/reload", to: "pages#reload"
   get "get_sites", to: "pages#get_sites"
   get "get_deadline", to: "pages#get_deadline"

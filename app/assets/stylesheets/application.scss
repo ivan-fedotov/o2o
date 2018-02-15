@@ -96,7 +96,9 @@ table {
 .modal {
   width: 1200px !important;
 }
-
+tr.result td, tr.result td a {
+  font-weight: bold;
+}
 .tabs {
   li.disabled {
     p {

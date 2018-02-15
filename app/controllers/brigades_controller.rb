@@ -2,6 +2,7 @@ class BrigadesController < ApplicationController
   before_action :set_brigade, only: [:show, :edit, :update, :destroy]
   before_action :get_permissions, only: [:new, :create, :edit, :update, :destroy]
   before_action :get_permissions_on_show, only: [:show]
+
   # GET /brigades
   # GET /brigades.json
   def index

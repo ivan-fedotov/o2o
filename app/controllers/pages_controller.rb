@@ -38,4 +38,18 @@ class PagesController < ApplicationController
       system "cd /data/www/o2o/o2o; rake db:schema:load; rake db:seed;"
     end
   end
+
+  def statistics
+    @start_time = DateTime.parse(params[:query][:start_time]) if params[:query] and params[:query][:start_time] != ""
+    @end_time = DateTime.parse(params[:query][:end_time]) if params[:query] and params[:query][:end_time] != ""
+    @brigades = Brigade.order("title asc")
+    #@brigades = @brigades.search(params[:brigade][:search_filter]) if params[:brigade].present? and params[:brigade][:search_filter].present?
+    @statuses = Status.all
+    @tickets = Ticket.all
+    @tickets_finished = @tickets.where("time_done > ?", @start_time) if @start_time
+    @tickets_finished = @tickets.where("time_done < ?", @end_time) if @end_time
+
+    @tickets = @tickets.where("time_new > ?", @start_time) if @start_time
+    @tickets = @tickets.where("time_new < ?", @end_time) if @end_time
+  end
 end

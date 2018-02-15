@@ -20,6 +20,7 @@
         <% end %>
         <li><%= link_to 'Объекты', sites_path %></li>
         <li><%= link_to "Бригады", brigades_path %></li>
+        <li><%= link_to "Статистика", stat_path %></li>
         <% if current_user.can?('get_reports') %>
           <li><%= link_to 'Отчеты', new_report_path %></li>
         <% end %>

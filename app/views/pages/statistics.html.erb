@@ -1,0 +1,72 @@
+<div class="site_form">
+  <div class="row gutters">
+    <div class="col col-2">
+      <h3>Статистика</h3>
+      <br>
+    </div>
+    <div class="col-10">
+      <%= form_for :query, url: stat_path, method: :get, class: "form", format: 'xls' do |f| %>
+      <div class="row gutters">
+        <div class="col col-5"><strong>Начало периода</strong></div>
+        <div class="col col-7"><strong>Конец периода</strong></div>
+        <div class="col col-5">
+          <%= f.text_field :start_time, value: time_f(@start_time), class: 'datetimepicker small' %>
+        </div>
+        <div class="col col-5">
+          <%= f.text_field :end_time, value: time_f(@end_time), class: 'datetimepicker small' %>
+        </div>
+        <div class="col col-2">
+          <%= f.submit 'Фильтр' %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<% if @start_time or @end_time %>
+<div class="">
+  За указанный период: <br>
+  <%= @tickets.size %> - новых (авр - <%= @tickets.where("ticket_type_id = 1").size %>, плн - <%= @tickets.where("ticket_type_id = 2").size %>), <br>
+  <%= @tickets_finished.size %> - завершено (авр - <%= @tickets_finished.where("ticket_type_id = 1").size %>, плн - <%= @tickets_finished.where("ticket_type_id = 2").size %>)
+</div>
+<% end %>
+<div class="">
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Наименование</th>
+        <th>Объектов</th>
+        <th>Заявок</th>
+        <% @statuses.each do |st| %>
+        <th>(<%= st.title %>)</th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @brigades.each do |brigade| %>
+      <tr>
+        <td class="nowrap"><%= link_to brigade.title, brigade %></td>
+        <td><%= link_to brigade.sites.size, {controller: :sites, action: :index, 'site[brigade_filter]': brigade.id} %></td>
+        <td><%= link_to tickets_number(brigade, nil), {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id} %></td>
+        <% @statuses.each do |st| %>
+        <td><%= link_to tickets_number(brigade, st), {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id, 'ticket[status_filter]': st.id} %></td>
+        <% end %>
+      </tr>
+      <% end %>
+      <tr class="result">
+        <td>Итого</td>
+        <td></td>
+        <td><%= link_to @tickets.size , root_path, class: "btn btn-primary" %></td>
+        <% @statuses.each do |st| %>
+        <td><%= link_to status_tickets(st), {controller: :tickets, action: :index, 'ticket[status_filter]': st.id} %></td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+
+
+
+</div>

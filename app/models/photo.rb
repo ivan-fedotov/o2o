@@ -12,5 +12,4 @@ class Photo < ApplicationRecord
   scope :existing, -> { where("id IS NOT NULL") }
   scope :site_photos, -> {where("message_id IS NULL")}
   scope :no_pc, -> {where("photo_collection_id IS NULL")}
-
 end

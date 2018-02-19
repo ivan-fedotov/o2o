@@ -48,7 +48,7 @@
       <tr>
         <td class="nowrap"><%= link_to brigade.title, brigade %></td>
         <td><%= link_to brigade.sites.size, {controller: :sites, action: :index, 'site[brigade_filter]': brigade.id} %></td>
-        <td><%= link_to tickets_number(brigade, nil), {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id} %></td>
+        <td><%= link_to tickets_number(brigade, nil), {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id} %> / (<%= link_to tickets_number_urgent(brigade, nil), {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id, 'ticket_type_filter': 1} %> | <%= link_to (tickets_number(brigade, nil) - tickets_number_urgent(brigade, nil)), {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id, 'ticket_type_filter': 2} %>)</td>
         <% @statuses.each do |st| %>
         <td><%= link_to tickets_number(brigade, st), {controller: :tickets, action: :index, 'ticket[brigade_filter]': brigade.id, 'ticket[status_filter]': st.id} %></td>
         <% end %>

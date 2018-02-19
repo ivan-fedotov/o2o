@@ -12,5 +12,4 @@ class Document < ApplicationRecord
   scope :sl, -> {where("doctype = 0")}
   scope :sr, -> {where("doctype = 1")}
   scope :ac, -> {where("doctype = 2")}
-
 end
